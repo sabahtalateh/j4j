@@ -13,9 +13,6 @@ import static org.junit.Assert.assertThat;
  */
 public class CalculateTest {
 
-    /**
-     * Test main method.
-     */
     @Test
     public void whenAddOneToOneThenGetTwo() {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
