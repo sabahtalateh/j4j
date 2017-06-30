@@ -6,10 +6,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import static org.hamcrest.core.Is.is;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
+/**
+ * Here we test all the stuff.
+ */
 public class CalculateTest {
 
+    /**
+     * Test main method.
+     */
     @Test
     public void whenAddOneToOneThenGetTwo() {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
