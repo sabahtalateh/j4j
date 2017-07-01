@@ -3,8 +3,6 @@ package com.sabahtalateh.j4j.condition;
 import org.junit.Test;
 
 import static org.hamcrest.number.IsCloseTo.closeTo;
-import static org.hamcrest.core.IsNot.not;
-import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 /**
