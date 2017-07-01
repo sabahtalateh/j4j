@@ -50,4 +50,12 @@ public class Point {
     public boolean belongsToFunction(int a, int b) {
         return this.y == a * this.x + b;
     }
+
+    /**
+     * @return string.
+     */
+    @Override
+    public String toString() {
+        return "Point{x=" + x + ", y=" + y + "}";
+    }
 }
