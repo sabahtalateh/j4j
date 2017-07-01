@@ -16,7 +16,7 @@ public class Max {
 
     /**
      * @param a first number
-     * @param b second  number
+     * @param b second number
      * @param c third number
      * @return maximum
      */
