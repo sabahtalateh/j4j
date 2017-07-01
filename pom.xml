@@ -9,6 +9,7 @@
     <version>2.0</version>
     <modules>
         <module>C01_JVM_Byte_Code</module>
+        <module>C03_Conditions</module>
     </modules>
     <packaging>pom</packaging>
 
