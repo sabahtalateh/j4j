@@ -10,6 +10,7 @@
     <modules>
         <module>C01_JVM_Byte_Code</module>
         <module>C03_Conditions</module>
+        <module>C04_Loop</module>
     </modules>
     <packaging>pom</packaging>
 
