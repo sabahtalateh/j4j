@@ -15,12 +15,12 @@ public class RotateMatrixTest {
 
         int[][] matrix = {
                 {1, 2},
-                {3, 4}
+                {3, 4},
         };
 
         int[][] expected = {
                 {3, 1},
-                {4, 2}
+                {4, 2},
         };
 
         assertThat(rotateMatrix.rotate(matrix), is(expected));
@@ -34,7 +34,7 @@ public class RotateMatrixTest {
         int[][] matrix = {
                 {1, 2, 3},
                 {4, 5, 6},
-                {7, 8, 9}
+                {7, 8, 9},
         };
 
         int[][] expected = {
