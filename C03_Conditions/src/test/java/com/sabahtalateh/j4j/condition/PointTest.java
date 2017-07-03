@@ -3,7 +3,7 @@ package com.sabahtalateh.j4j.condition;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-//import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.Is.is;
 
 /**
  * Tests.
@@ -11,67 +11,33 @@ import static org.junit.Assert.*;
 public class PointTest {
     @Test
     public void yEqualsXTest() throws Exception {
-        // y = x lenearFunction; a = 1, b = 0
-        LenearFunction lenearFunction = new LenearFunction(1, 0);
+        // y = x linearFunction; a = 1, b = 0
+        int a = 1, b = 0;
 
-        assertTrue(new Point(0, 0).belongsToFunction(lenearFunction.getA(), lenearFunction.getB()));
-        assertTrue(new Point(1, 1).belongsToFunction(lenearFunction.getA(), lenearFunction.getB()));
-        assertTrue(new Point(100, 100).belongsToFunction(lenearFunction.getA(), lenearFunction.getB()));
-        assertFalse(new Point(0, 5).belongsToFunction(lenearFunction.getA(), lenearFunction.getB()));
+        assertThat(new Point(0, 0).belongsToFunction(a, b), is(true));
+        assertThat(new Point(1, 1).belongsToFunction(a, b), is(true));
+        assertThat(new Point(100, 100).belongsToFunction(a, b), is(true));
+        assertThat(new Point(0, 5).belongsToFunction(a, b), is(false));
     }
 
     @Test
     public void yEquals2x() {
         // y = 2 * x; a = 2, b = 0
-        LenearFunction lenearFunction = new LenearFunction(2, 0);
+        int a = 2, b = 0;
 
-        assertTrue(new Point(0, 0).belongsToFunction(lenearFunction.getA(), lenearFunction.getB()));
-        assertTrue(new Point(1, 2).belongsToFunction(lenearFunction.getA(), lenearFunction.getB()));
-        assertFalse(new Point(1, 1).belongsToFunction(lenearFunction.getA(), lenearFunction.getB()));
+        assertThat(new Point(0, 0).belongsToFunction(a, b), is(true));
+        assertThat(new Point(1, 2).belongsToFunction(a, b), is(true));
+        assertThat(new Point(1, 1).belongsToFunction(a, b), is(false));
     }
 
     @Test
     public void yEquals2xPlus3() {
         // y = 2 * x + 4; a = 2, b = 4
-        LenearFunction lenearFunction = new LenearFunction(2, 4);
+        int a = 2, b = 4;
 
-        assertFalse(new Point(0, 0).belongsToFunction(lenearFunction.getA(), lenearFunction.getB()));
-        assertFalse(new Point(12, 32).belongsToFunction(lenearFunction.getA(), lenearFunction.getB()));
-        assertTrue(new Point(0, 4).belongsToFunction(lenearFunction.getA(), lenearFunction.getB()));
-        assertTrue(new Point(2, 8).belongsToFunction(lenearFunction.getA(), lenearFunction.getB()));
-        assertTrue(new Point(4, 12).belongsToFunction(lenearFunction.getA(), lenearFunction.getB()));
-    }
-
-    /**
-     * LenearFunction.
-     */
-    class LenearFunction {
-        /**
-         * a, b - coefficients.
-         */
-        private int a, b;
-
-        /**
-         * @param a coefficient.
-         * @param b coefficient.
-         */
-        LenearFunction(int a, int b) {
-            this.a = a;
-            this.b = b;
-        }
-
-        /**
-         * @return coefficient.
-         */
-        int getA() {
-            return a;
-        }
-
-        /**
-         * @return coefficient.
-         */
-        int getB() {
-            return b;
-        }
+        assertThat(new Point(12, 32).belongsToFunction(a, b), is(false));
+        assertThat(new Point(0, 4).belongsToFunction(a, b), is(true));
+        assertThat(new Point(2, 8).belongsToFunction(a, b), is(true));
+        assertThat(new Point(4, 12).belongsToFunction(a, b), is(true));
     }
 }
