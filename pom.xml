@@ -9,6 +9,7 @@
     <version>2.0</version>
     <modules>
         <module>C01_Basics</module>
+        <module>C02_OOP</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -55,6 +56,14 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <compilerVersion>1.8</compilerVersion>
+                </configuration>
             </plugin>
         </plugins>
     </build>
