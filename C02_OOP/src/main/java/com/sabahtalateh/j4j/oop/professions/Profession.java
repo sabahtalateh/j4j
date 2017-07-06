@@ -1,4 +1,4 @@
-package com.sabahtalateh.oop.professions;
+package com.sabahtalateh.j4j.oop.professions;
 
 /**
  * Profession.
