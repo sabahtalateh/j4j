@@ -80,7 +80,7 @@ public class Tracker {
         int itemIndex = this.getItemIndex(item);
 
         if (itemIndex != -1) {
-            for (int i = 0; i < total - 1; i++) {
+            for (int i = itemIndex; i < total - 1; i++) {
                 Item tmp = this.items[i];
                 this.items[i] = this.items[i + 1];
                 this.items[i + 1] = tmp;
@@ -107,14 +107,8 @@ public class Tracker {
      * @param name to find.
      * @return Item.
      */
-    public Item findByName(String name) {
-        for (Item item : this.getItems()) {
-            if (item.getName().equals(name)) {
-                return item;
-            }
-        }
-
-        return null;
+    public Item[] findByName(String name) {
+        return Arrays.stream(this.getItems()).filter((o) -> o.getName().contains(name)).toArray(Item[]::new);
     }
 
     /**

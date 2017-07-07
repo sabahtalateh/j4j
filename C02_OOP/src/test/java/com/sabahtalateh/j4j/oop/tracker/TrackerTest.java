@@ -19,24 +19,37 @@ public class TrackerTest {
         Item item1 = new Item("Task1", "Description1");
         tracker.add(item1);
         assertThat(tracker.getItems().length, is(1));
-        assertThat(tracker.getItems()[0].getName(), is("Task1"));
-        assertThat(tracker.getItems()[0].getDescription(), is("Description1"));
 
         Item item2 = new Item("Task2", "Description2");
         tracker.add(item2);
+
         assertThat(tracker.getItems().length, is(2));
         assertThat(tracker.getItems()[0].getName(), is("Task1"));
         assertThat(tracker.getItems()[0].getDescription(), is("Description1"));
         assertThat(tracker.getItems()[1].getName(), is("Task2"));
         assertThat(tracker.getItems()[1].getDescription(), is("Description2"));
+    }
 
+    @Test
+    public void whenTrackerOverflowsThanFirstElementIsDeleted() {
+        int maxItems = 2;
+        Tracker tracker = new Tracker(maxItems);
+        assertThat(tracker.getItems().length, is(0));
+
+        Item item1 = new Item("Task1", "Description1");
+        Item item2 = new Item("Task2", "Description2");
         Item item3 = new Item("Task3", "Description3");
+
+        tracker.add(item1);
+        tracker.add(item2);
+        assertThat(tracker.getItems().length, is(2));
+        assertThat(tracker.getItems()[0].getName(), is("Task1"));
+        assertThat(tracker.getItems()[1].getName(), is("Task2"));
+
         tracker.add(item3);
         assertThat(tracker.getItems().length, is(2));
         assertThat(tracker.getItems()[0].getName(), is("Task2"));
-        assertThat(tracker.getItems()[0].getDescription(), is("Description2"));
         assertThat(tracker.getItems()[1].getName(), is("Task3"));
-        assertThat(tracker.getItems()[1].getDescription(), is("Description3"));
     }
 
     @Test
@@ -73,16 +86,20 @@ public class TrackerTest {
         Item item1 = new Item("Task1", "Description1");
         Item item2 = new Item("Task2", "Description2");
         Item item3 = new Item("Task3", "Description3");
+        Item item4 = new Item("Task1", "Description4");
 
         tracker.add(item1);
         tracker.add(item2);
         tracker.add(item3);
+        tracker.add(item4);
 
-        assertThat(tracker.findByName("Task1").getDescription(), is("Description1"));
-        assertThat(tracker.findByName("Task3").getDescription(), is("Description3"));
-        assertThat(tracker.findByName("Task2").getDescription(), is("Description2"));
+        assertThat(tracker.findByName("Task1")[0].getDescription(), is("Description1"));
+        assertThat(tracker.findByName("Task1")[1].getDescription(), is("Description4"));
 
-        assertThat(tracker.findByName("Non existing task"), is(nullValue()));
+        assertThat(tracker.findByName("Task3")[0].getDescription(), is("Description3"));
+        assertThat(tracker.findByName("Task2")[0].getDescription(), is("Description2"));
+
+        assertThat(tracker.findByName("Non existing task"), is(new Item[] {}));
     }
 
     @Test
@@ -93,19 +110,24 @@ public class TrackerTest {
 
         Item item1 = new Item("Task1", "Description1");
         tracker.add(item1);
-        assertThat(tracker.getItems().length, is(1));
-
-        tracker.delete(tracker.getItems()[0]);
-        assertThat(tracker.getItems().length, is(0));
-
-        tracker.add(item1);
         tracker.add(item1);
         tracker.add(item1);
         assertThat(tracker.getItems().length, is(3));
 
-        tracker.delete(tracker.getItems()[0]);
-        tracker.delete(tracker.getItems()[0]);
-        assertThat(tracker.getItems().length, is(1));
+        Item itemToDelete = tracker.getItems()[0];
+        tracker.delete(itemToDelete);
+        assertThat(tracker.getItems().length, is(2));
+        assertThat(tracker.findById(itemToDelete.getId()), is(nullValue()));
+
+        tracker.add(item1);
+        tracker.add(item1);
+        tracker.add(item1);
+        assertThat(tracker.getItems().length, is(5));
+
+        itemToDelete = tracker.getItems()[3];
+        tracker.delete(itemToDelete);
+        assertThat(tracker.getItems().length, is(4));
+        assertThat(tracker.findById(itemToDelete.getId()), is(nullValue()));
     }
 
     @Test
@@ -122,13 +144,13 @@ public class TrackerTest {
         tracker.add(item2);
         tracker.add(item3);
 
-        Item itemToUpdate = tracker.findByName("Task2");
+        Item itemToUpdate = tracker.findByName("Task2")[0];
         itemToUpdate.setName("New Name");
         itemToUpdate.setDescription("New Description");
 
         tracker.update(itemToUpdate);
 
-        assertThat(tracker.findByName("Task2"), is(nullValue()));
-        assertThat(tracker.findByName("New Name").getDescription(), is("New Description"));
+        assertThat(tracker.findByName("Task2"), is(new Item[] {}));
+        assertThat(tracker.findByName("New Name")[0].getDescription(), is("New Description"));
     }
 }
