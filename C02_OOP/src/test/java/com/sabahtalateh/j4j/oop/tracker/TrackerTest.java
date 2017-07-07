@@ -1,0 +1,134 @@
+package com.sabahtalateh.j4j.oop.tracker;
+
+import org.junit.Test;
+
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.*;
+
+/**
+ * Tests.
+ */
+public class TrackerTest {
+    @Test
+    public void whenItemAddedToTrackerItPersistsInIt() {
+        int maxItems = 2;
+        Tracker tracker = new Tracker(maxItems);
+        assertThat(tracker.getItems().length, is(0));
+
+        Item item1 = new Item("Task1", "Description1");
+        tracker.add(item1);
+        assertThat(tracker.getItems().length, is(1));
+        assertThat(tracker.getItems()[0].getName(), is("Task1"));
+        assertThat(tracker.getItems()[0].getDescription(), is("Description1"));
+
+        Item item2 = new Item("Task2", "Description2");
+        tracker.add(item2);
+        assertThat(tracker.getItems().length, is(2));
+        assertThat(tracker.getItems()[0].getName(), is("Task1"));
+        assertThat(tracker.getItems()[0].getDescription(), is("Description1"));
+        assertThat(tracker.getItems()[1].getName(), is("Task2"));
+        assertThat(tracker.getItems()[1].getDescription(), is("Description2"));
+
+        Item item3 = new Item("Task3", "Description3");
+        tracker.add(item3);
+        assertThat(tracker.getItems().length, is(2));
+        assertThat(tracker.getItems()[0].getName(), is("Task2"));
+        assertThat(tracker.getItems()[0].getDescription(), is("Description2"));
+        assertThat(tracker.getItems()[1].getName(), is("Task3"));
+        assertThat(tracker.getItems()[1].getDescription(), is("Description3"));
+    }
+
+    @Test
+    public void whenItemExistsInTrackerWeCanGetItById() {
+        int maxItems = 5;
+        Tracker tracker = new Tracker(maxItems);
+        assertThat(tracker.getItems().length, is(0));
+
+        assertThat(tracker.findById("Non existing ID"), is(nullValue()));
+
+        Item item1 = new Item("Task1", "Description1");
+        Item item2 = new Item("Task2", "Description2");
+        Item item3 = new Item("Task3", "Description3");
+
+        tracker.add(item1);
+        tracker.add(item2);
+        tracker.add(item3);
+
+        String item1ID = tracker.getItems()[0].getId();
+        String item2ID = tracker.getItems()[1].getId();
+        String item3ID = tracker.getItems()[2].getId();
+
+        assertThat(tracker.findById(item1ID).getDescription(), is("Description1"));
+        assertThat(tracker.findById(item3ID).getName(), is("Task3"));
+        assertThat(tracker.findById(item2ID).getName(), is("Task2"));
+    }
+
+    @Test
+    public void whenItemExistsInTrackerWeCanGetItByName() {
+        int maxItems = 5;
+        Tracker tracker = new Tracker(maxItems);
+        assertThat(tracker.getItems().length, is(0));
+
+        Item item1 = new Item("Task1", "Description1");
+        Item item2 = new Item("Task2", "Description2");
+        Item item3 = new Item("Task3", "Description3");
+
+        tracker.add(item1);
+        tracker.add(item2);
+        tracker.add(item3);
+
+        assertThat(tracker.findByName("Task1").getDescription(), is("Description1"));
+        assertThat(tracker.findByName("Task3").getDescription(), is("Description3"));
+        assertThat(tracker.findByName("Task2").getDescription(), is("Description2"));
+
+        assertThat(tracker.findByName("Non existing task"), is(nullValue()));
+    }
+
+    @Test
+    public void whenDeleteItemItDoesNotExistsInTrackerAnymore() {
+        int maxItems = 5;
+        Tracker tracker = new Tracker(maxItems);
+        assertThat(tracker.getItems().length, is(0));
+
+        Item item1 = new Item("Task1", "Description1");
+        tracker.add(item1);
+        assertThat(tracker.getItems().length, is(1));
+
+        tracker.delete(tracker.getItems()[0]);
+        assertThat(tracker.getItems().length, is(0));
+
+        tracker.add(item1);
+        tracker.add(item1);
+        tracker.add(item1);
+        assertThat(tracker.getItems().length, is(3));
+
+        tracker.delete(tracker.getItems()[0]);
+        tracker.delete(tracker.getItems()[0]);
+        assertThat(tracker.getItems().length, is(1));
+    }
+
+    @Test
+    public void whenItemBeenUpdatedItHasNewDescription() {
+        int maxItems = 5;
+        Tracker tracker = new Tracker(maxItems);
+        assertThat(tracker.getItems().length, is(0));
+
+        Item item1 = new Item("Task1", "Description1");
+        Item item2 = new Item("Task2", "Description2");
+        Item item3 = new Item("Task3", "Description3");
+
+        tracker.add(item1);
+        tracker.add(item2);
+        tracker.add(item3);
+
+        Item itemToUpdate = tracker.findByName("Task2");
+        itemToUpdate.setName("New Name");
+        itemToUpdate.setDescription("New Description");
+
+        tracker.update(itemToUpdate);
+
+        assertThat(tracker.findByName("Task2"), is(nullValue()));
+        assertThat(tracker.findByName("New Name").getDescription(), is("New Description"));
+    }
+}
