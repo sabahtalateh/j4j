@@ -14,6 +14,5 @@ public class Exit implements Action {
     @Override
     public void execute(Tracker tracker, IO io) {
         io.answer("Bue..");
-        System.exit(0);
     }
 }

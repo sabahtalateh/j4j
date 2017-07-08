@@ -29,9 +29,9 @@ public class ItemsPrinter {
      * @param io   to interact.
      */
     public void printSingle(Item item, IO io) {
-        io.answer(String.format("[ID]           %s", item.getId()));
-        io.answer(String.format("[Name]         %s", item.getName()));
-        io.answer(String.format("[Description]  %s", item.getDescription()));
+        io.answer(String.format("{ID}           %s", item.getId()));
+        io.answer(String.format("{Name}         %s", item.getName()));
+        io.answer(String.format("{Description}  %s", item.getDescription()));
         io.answer("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
     }
 }

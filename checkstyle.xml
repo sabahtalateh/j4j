@@ -68,9 +68,11 @@
         <!-- See http://checkstyle.sf.net/config_javadoc.html -->
         <module name="JavadocMethod">
             <property name="allowedAnnotations" value="Test"/>
+            <property name="allowedAnnotations" value="Before"/>
+            <property name="allowedAnnotations" value="After"/>
         </module>
         <module name="JavadocType"/>
-        <module name="JavadocVariable"/>
+        <!--<module name="JavadocVariable"/>-->
         <module name="JavadocStyle"/>
 
         <!-- Checks for Naming Conventions.                  -->

@@ -9,42 +9,9 @@ import com.sabahtalateh.j4j.oop.tracker.io.IO;
  */
 public class StartUI {
     /**
-     * Load stubs.
-     */
-    private static final int MENU_LOAD_STUB_ITEMS = 0;
-    /**
-     * Add item.
-     */
-    private static final int MENU_ADD_ITEM = 1;
-    /**
-     * Edit item.
-     */
-    private static final int MENU_EDIT_ITEM = 2;
-    /**
-     * List all items.
-     */
-    private static final int MENU_LIST_ITEMS = 3;
-    /**
-     * Find Item by id.
-     */
-    private static final int MENU_FIND_BY_ID = 4;
-    /**
-     * Find Item by name.
-     */
-    private static final int MENU_FIND_BY_NAME = 5;
-    /**
-     * Delete Item by id.
-     */
-    private static final int MENU_DELETE_ITEM = 6;
-    /**
-     * Exit program.
-     */
-    private static final int MENU_EXIT = 7;
-
-    /**
      * Menu items.
      */
-    private String[] menu = new String[8];
+    private String[] menu = new String[Menu.values().length];
 
     /**
      * Input/Output system.
@@ -54,34 +21,32 @@ public class StartUI {
     /**
      * Items tracker.
      */
-    private final Tracker tracker = new Tracker();
+    private final Tracker tracker;
 
     /**
      * @param io IO system.
+     * @param tracker tracker.
      */
-    public StartUI(IO io) {
+    StartUI(IO io, Tracker tracker) {
         this.io = io;
-        this.menu[MENU_LOAD_STUB_ITEMS] = "Load stub tasks";
-        this.menu[MENU_ADD_ITEM] = "Add item";
-        this.menu[MENU_EDIT_ITEM] = "Edit item";
-        this.menu[MENU_LIST_ITEMS] = "Show all items";
-        this.menu[MENU_FIND_BY_ID] = "Find item by id";
-        this.menu[MENU_FIND_BY_NAME] = "Find item by name";
-        this.menu[MENU_DELETE_ITEM] = "Delete item";
-        this.menu[MENU_EXIT] = "Exit";
+        this.tracker = tracker;
     }
 
     /**
      * Run UI.
      */
-    private void run() {
+    void run() {
+        this.initMenu();
         while (true) {
             printMenu();
             Action action = this.createAction(Integer.valueOf(io.ask("Select: ")));
             if (action != null) {
                 action.execute(tracker, io);
+                if (action instanceof Exit) {
+                    return;
+                }
             } else {
-                System.out.println("Action is invalid. Change another.");
+                this.io.answer("Action is invalid. Change another.");
             }
         }
     }
@@ -91,45 +56,47 @@ public class StartUI {
      * @return Action.
      */
     private Action createAction(int actionCode) {
-        Action action;
-        switch (actionCode) {
-            case (MENU_LOAD_STUB_ITEMS):
-                action = new LoadStubItems();
-                break;
-            case (MENU_ADD_ITEM):
-                action = new AddItem();
-                break;
-            case (MENU_EDIT_ITEM):
-                action = new EditItem();
-                break;
-            case (MENU_LIST_ITEMS):
-                action = new ShowAllItems();
-                break;
-            case (MENU_FIND_BY_ID):
-                action = new FindById();
-                break;
-            case (MENU_FIND_BY_NAME):
-                action = new FindByName();
-                break;
-            case (MENU_DELETE_ITEM):
-                action = new DeleteItem();
-                break;
-            case (MENU_EXIT):
-                action = new Exit();
-                break;
-            default:
-                action = null;
+        Action action = null;
+        if (actionCode == Menu.LOAD_STUBS.ordinal()) {
+            action = new LoadStubItems();
+        } else if (actionCode == Menu.ADD_ITEM.ordinal()) {
+            action = new AddItem();
+        } else if (actionCode == Menu.EDIT_ITEM.ordinal()) {
+            action = new EditItem();
+        } else if (actionCode == Menu.SHOW_ALL.ordinal()) {
+            action = new ShowAllItems();
+        } else if (actionCode == Menu.FIND_BY_NAME.ordinal()) {
+            action = new FindByName();
+        } else if (actionCode == Menu.FIND_BY_ID.ordinal()) {
+            action = new FindById();
+        } else if (actionCode == Menu.DELETE_ITEM.ordinal()) {
+            action = new DeleteItem();
+        } else if (actionCode == Menu.EXIT.ordinal()) {
+            action = new Exit();
         }
         return action;
+    }
+
+    /**
+     * Initialize menu.
+     */
+    private void initMenu() {
+        this.menu[Menu.LOAD_STUBS.ordinal()] = "Load stub tasks";
+        this.menu[Menu.ADD_ITEM.ordinal()] = "Add item";
+        this.menu[Menu.EDIT_ITEM.ordinal()] = "Edit item";
+        this.menu[Menu.SHOW_ALL.ordinal()] = "Show all items";
+        this.menu[Menu.FIND_BY_ID.ordinal()] = "Find item by id";
+        this.menu[Menu.FIND_BY_NAME.ordinal()] = "Find item by name";
+        this.menu[Menu.DELETE_ITEM.ordinal()] = "Delete item";
+        this.menu[Menu.EXIT.ordinal()] = "Exit";
     }
 
     /**
      * Print menu.
      */
     private void printMenu() {
-        System.out.println();
         for (int i = 0; i < this.menu.length; i++) {
-            System.out.printf("[%d] %s %n", i, menu[i]);
+            this.io.answer(String.format("[%d] %s", i, menu[i]));
         }
     }
 
@@ -137,6 +104,6 @@ public class StartUI {
      * @param args of method.
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleIO()).run();
+        new StartUI(new ConsoleIO(), new Tracker()).run();
     }
 }
