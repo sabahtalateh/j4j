@@ -25,6 +25,16 @@ public class StubIO implements IO {
     }
 
     /**
+     * @param question      to ask.
+     * @param allowedValues to validate.
+     * @return answer.
+     */
+    @Override
+    public int ask(String question, int[] allowedValues) {
+        return Integer.valueOf(this.actionSequence[actionPointer++]);
+    }
+
+    /**
      * @param answer to io.
      */
     @Override

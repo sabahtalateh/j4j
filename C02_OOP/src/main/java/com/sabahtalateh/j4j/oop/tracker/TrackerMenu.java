@@ -13,14 +13,26 @@ class TrackerMenu {
 
     private final Action[] actions = new Action[8];
 
+    private int[] actionKeys = new int[8];
+
     /**
-     * @param io IO system.
+     * @param io      IO system.
      * @param tracker with items.
      */
     TrackerMenu(IO io, Tracker tracker) {
         this.io = io;
         this.tracker = tracker;
         this.fillMenuItems();
+        this.fillActionKeys();
+    }
+
+    /**
+     * Fill menu action keys.
+     */
+    private void fillActionKeys() {
+        for (int i = 0; i < actions.length; i++) {
+            actionKeys[i] = i;
+        }
     }
 
     /**
@@ -68,13 +80,14 @@ class TrackerMenu {
         Action action = null;
         while (!(action instanceof Exit)) {
             presentMenu();
-            int actionKey = Integer.valueOf(io.ask("Select action: "));
+            int actionKey = io.ask("Select action: ", this.actionKeys);
             action = actions[actionKey];
             action.execute(tracker, io);
         }
     }
 
     // Actions
+
     /**
      * LoadStubs.
      */
@@ -89,7 +102,7 @@ class TrackerMenu {
 
         /**
          * @param tracker with tasks.
-         * @param io to interact.
+         * @param io      to interact.
          */
         @Override
         public void execute(Tracker tracker, IO io) {
@@ -125,7 +138,7 @@ class TrackerMenu {
 
         /**
          * @param tracker with tasks.
-         * @param io to interact.
+         * @param io      to interact.
          */
         @Override
         public void execute(Tracker tracker, IO io) {

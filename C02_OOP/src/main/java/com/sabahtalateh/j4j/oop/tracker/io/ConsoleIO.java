@@ -1,6 +1,9 @@
 package com.sabahtalateh.j4j.oop.tracker.io;
 
+import com.sabahtalateh.j4j.oop.tracker.OutOfRangeException;
+
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 /**
  * ConsoleIO.
@@ -12,9 +15,24 @@ public class ConsoleIO implements IO {
      */
     @Override
     public String ask(String question) {
-        Scanner scanner = new Scanner(System.in);
         System.out.print(question);
-        return scanner.nextLine();
+        return new Scanner(System.in).nextLine();
+    }
+
+    /**
+     * @param question      to ask.
+     * @param allowedValues to validate.
+     * @return answer as integer.
+     */
+    @Override
+    public int ask(String question, int[] allowedValues) {
+        System.out.print(question);
+        int answer = Integer.valueOf(new Scanner(System.in).nextLine());
+
+        if (IntStream.of(allowedValues).noneMatch(x -> x == answer)) {
+            throw new OutOfRangeException("Value is out of allowed range. Please choose another");
+        }
+        return answer;
     }
 
     /**
