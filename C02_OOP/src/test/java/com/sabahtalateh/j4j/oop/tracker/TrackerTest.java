@@ -16,13 +16,10 @@ public class TrackerTest {
         Tracker tracker = new Tracker(maxItems);
         assertThat(tracker.getItems().length, is(0));
 
-        Item item1 = new Item("Task1", "Description1");
-        tracker.add(item1);
+        tracker.add(new Item("Task1", "Description1"));
         assertThat(tracker.getItems().length, is(1));
 
-        Item item2 = new Item("Task2", "Description2");
-        tracker.add(item2);
-
+        tracker.add(new Item("Task2", "Description2"));
         assertThat(tracker.getItems().length, is(2));
         assertThat(tracker.getItems()[0].getName(), is("Task1"));
         assertThat(tracker.getItems()[0].getDescription(), is("Description1"));
@@ -36,17 +33,13 @@ public class TrackerTest {
         Tracker tracker = new Tracker(maxItems);
         assertThat(tracker.getItems().length, is(0));
 
-        Item item1 = new Item("Task1", "Description1");
-        Item item2 = new Item("Task2", "Description2");
-        Item item3 = new Item("Task3", "Description3");
-
-        tracker.add(item1);
-        tracker.add(item2);
+        tracker.add(new Item("Task1", "Description1"));
+        tracker.add(new Item("Task2", "Description2"));
         assertThat(tracker.getItems().length, is(2));
         assertThat(tracker.getItems()[0].getName(), is("Task1"));
         assertThat(tracker.getItems()[1].getName(), is("Task2"));
 
-        tracker.add(item3);
+        tracker.add(new Item("Task3", "Description3"));
         assertThat(tracker.getItems().length, is(2));
         assertThat(tracker.getItems()[0].getName(), is("Task2"));
         assertThat(tracker.getItems()[1].getName(), is("Task3"));
@@ -56,17 +49,12 @@ public class TrackerTest {
     public void whenItemExistsInTrackerWeCanGetItById() {
         int maxItems = 5;
         Tracker tracker = new Tracker(maxItems);
-        assertThat(tracker.getItems().length, is(0));
 
         assertThat(tracker.findById("Non existing ID"), is(nullValue()));
 
-        Item item1 = new Item("Task1", "Description1");
-        Item item2 = new Item("Task2", "Description2");
-        Item item3 = new Item("Task3", "Description3");
-
-        tracker.add(item1);
-        tracker.add(item2);
-        tracker.add(item3);
+        tracker.add(new Item("Task1", "Description1"));
+        tracker.add(new Item("Task2", "Description2"));
+        tracker.add(new Item("Task3", "Description3"));
 
         String item1ID = tracker.getItems()[0].getId();
         String item2ID = tracker.getItems()[1].getId();
@@ -83,15 +71,10 @@ public class TrackerTest {
         Tracker tracker = new Tracker(maxItems);
         assertThat(tracker.getItems().length, is(0));
 
-        Item item1 = new Item("Task1", "Description1");
-        Item item2 = new Item("Task2", "Description2");
-        Item item3 = new Item("Task3", "Description3");
-        Item item4 = new Item("Task1", "Description4");
-
-        tracker.add(item1);
-        tracker.add(item2);
-        tracker.add(item3);
-        tracker.add(item4);
+        tracker.add(new Item("Task1", "Description1"));
+        tracker.add(new Item("Task2", "Description2"));
+        tracker.add(new Item("Task3", "Description3"));
+        tracker.add(new Item("Task1", "Description4"));
 
         assertThat(tracker.findByName("Task1")[0].getDescription(), is("Description1"));
         assertThat(tracker.findByName("Task1")[1].getDescription(), is("Description4"));
@@ -108,22 +91,23 @@ public class TrackerTest {
         Tracker tracker = new Tracker(maxItems);
         assertThat(tracker.getItems().length, is(0));
 
-        Item item1 = new Item("Task1", "Description1");
-        tracker.add(item1);
-        tracker.add(item1);
-        tracker.add(item1);
+        tracker.add(new Item("Task1", "Description1"));
+        tracker.add(new Item("Task1", "Description1"));
+        tracker.add(new Item("Task1", "Description1"));
         assertThat(tracker.getItems().length, is(3));
 
+        // Delete element.
         Item itemToDelete = tracker.getItems()[0];
         tracker.delete(itemToDelete);
         assertThat(tracker.getItems().length, is(2));
         assertThat(tracker.findById(itemToDelete.getId()), is(nullValue()));
 
-        tracker.add(item1);
-        tracker.add(item1);
-        tracker.add(item1);
+        tracker.add(new Item("Task1", "Description1"));
+        tracker.add(new Item("Task1", "Description1"));
+        tracker.add(new Item("Task1", "Description1"));
         assertThat(tracker.getItems().length, is(5));
 
+        // Delete one more element.
         itemToDelete = tracker.getItems()[3];
         tracker.delete(itemToDelete);
         assertThat(tracker.getItems().length, is(4));
@@ -134,15 +118,10 @@ public class TrackerTest {
     public void whenItemBeenUpdatedItHasNewDescription() {
         int maxItems = 5;
         Tracker tracker = new Tracker(maxItems);
-        assertThat(tracker.getItems().length, is(0));
 
-        Item item1 = new Item("Task1", "Description1");
-        Item item2 = new Item("Task2", "Description2");
-        Item item3 = new Item("Task3", "Description3");
-
-        tracker.add(item1);
-        tracker.add(item2);
-        tracker.add(item3);
+        tracker.add(new Item("Task1", "Description1"));
+        tracker.add(new Item("Task2", "Description2"));
+        tracker.add(new Item("Task3", "Description3"));
 
         Item itemToUpdate = tracker.findByName("Task2")[0];
         itemToUpdate.setName("New Name");
