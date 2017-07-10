@@ -1,6 +1,5 @@
-package com.sabahtalateh.j4j.oop.tracker.action;
+package com.sabahtalateh.j4j.oop.tracker;
 
-import com.sabahtalateh.j4j.oop.tracker.Item;
 import com.sabahtalateh.j4j.oop.tracker.io.IO;
 import org.atteo.evo.inflector.English;
 
