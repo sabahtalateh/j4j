@@ -13,6 +13,8 @@ class TrackerMenu {
 
     private final Action[] actions = new Action[8];
 
+    private int[] actionKeys = new int[8];
+
     /**
      * @param io      IO system.
      * @param tracker with items.
@@ -21,6 +23,16 @@ class TrackerMenu {
         this.io = io;
         this.tracker = tracker;
         this.fillMenuItems();
+        this.fillActionKeys();
+    }
+
+    /**
+     * Fill menu action keys.
+     */
+    private void fillActionKeys() {
+        for (int i = 0; i < actions.length; i++) {
+            actionKeys[i] = i;
+        }
     }
 
     /**
@@ -54,7 +66,7 @@ class TrackerMenu {
         Action action = null;
         while (!(action instanceof Exit)) {
             presentMenu();
-            int actionKey = Integer.valueOf(io.ask("Select action: "));
+            int actionKey = io.ask("Select action: ", this.actionKeys);
             action = actions[actionKey];
             action.execute(tracker, io);
         }

@@ -11,6 +11,13 @@ public interface IO {
     String ask(String question);
 
     /**
+     * @param question      to ask.
+     * @param allowedValues to validate.
+     * @return answer.
+     */
+    int ask(String question, int[] allowedValues);
+
+    /**
      * @param answer to io.
      */
     void answer(String answer);

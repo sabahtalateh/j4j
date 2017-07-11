@@ -1,7 +1,7 @@
 package com.sabahtalateh.j4j.oop.tracker;
 
-import com.sabahtalateh.j4j.oop.tracker.io.ConsoleIO;
 import com.sabahtalateh.j4j.oop.tracker.io.IO;
+import com.sabahtalateh.j4j.oop.tracker.io.ValidatedIO;
 
 /**
  * StartUI.
@@ -31,6 +31,6 @@ public class StartUI {
      * @param args of method.
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleIO(), new Tracker()).run();
+        new StartUI(new ValidatedIO(), new Tracker()).run();
     }
 }
