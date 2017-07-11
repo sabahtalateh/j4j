@@ -13,6 +13,11 @@ public interface Action {
     int key();
 
     /**
+     * @return action name.
+     */
+    String name();
+
+    /**
      * @param tracker with tasks.
      * @param io to interact.
      */

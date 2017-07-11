@@ -14,7 +14,7 @@ class TrackerMenu {
     private final Action[] actions = new Action[8];
 
     /**
-     * @param io IO system.
+     * @param io      IO system.
      * @param tracker with items.
      */
     TrackerMenu(IO io, Tracker tracker) {
@@ -27,29 +27,15 @@ class TrackerMenu {
      * Fill menu with actions.
      */
     private void fillMenuItems() {
-        Action loadStubs = new TrackerMenu.LoadStubs();
-        actions[loadStubs.key()] = loadStubs;
-
-        Action addItem = this.new AddItem();
-        actions[addItem.key()] = addItem;
-
-        Action editItem = new EditItem();
-        actions[editItem.key()] = editItem;
-
-        Action showAll = new ShowAll();
-        actions[showAll.key()] = showAll;
-
-        Action findById = new FindById();
-        actions[findById.key()] = findById;
-
-        Action findByName = new FindByName();
-        actions[findByName.key()] = findByName;
-
-        Action deleteItem = new DeleteItem();
-        actions[deleteItem.key()] = deleteItem;
-
-        Action exit = new Exit();
-        actions[exit.key()] = exit;
+        int position = 0;
+        actions[position++] = new TrackerMenu.LoadStubs();
+        actions[position++] = this.new AddItem();
+        actions[position++] = new EditItem();
+        actions[position++] = new ShowAll();
+        actions[position++] = new FindById();
+        actions[position++] = new FindByName();
+        actions[position++] = new DeleteItem();
+        actions[position] = new Exit();
     }
 
     /**
@@ -57,7 +43,7 @@ class TrackerMenu {
      */
     private void presentMenu() {
         for (Action action : actions) {
-            io.answer(String.format("[%s] %s", action.key(), action.actionInfo()));
+            io.answer(action.actionInfo());
         }
     }
 
@@ -75,10 +61,11 @@ class TrackerMenu {
     }
 
     // Actions
+
     /**
      * LoadStubs.
      */
-    private static class LoadStubs implements Action {
+    private static class LoadStubs extends BaseAction {
         /**
          * @return action key.
          */
@@ -88,8 +75,16 @@ class TrackerMenu {
         }
 
         /**
+         * @return name.
+         */
+        @Override
+        public String name() {
+            return "Load stubs";
+        }
+
+        /**
          * @param tracker with tasks.
-         * @param io to interact.
+         * @param io      to interact.
          */
         @Override
         public void execute(Tracker tracker, IO io) {
@@ -101,20 +96,12 @@ class TrackerMenu {
             }
             io.answer(String.format("%s Stub tasks loaded..", amount));
         }
-
-        /**
-         * @return action description.
-         */
-        @Override
-        public String actionInfo() {
-            return "Load stub items";
-        }
     }
 
     /**
      * AddItem.
      */
-    private class AddItem implements Action {
+    private class AddItem extends BaseAction {
         /**
          * @return action key.
          */
@@ -124,8 +111,16 @@ class TrackerMenu {
         }
 
         /**
+         * @return name.
+         */
+        @Override
+        public String name() {
+            return "Add item";
+        }
+
+        /**
          * @param tracker with tasks.
-         * @param io to interact.
+         * @param io      to interact.
          */
         @Override
         public void execute(Tracker tracker, IO io) {
@@ -133,28 +128,27 @@ class TrackerMenu {
             tracker.add(item);
             io.answer(String.format("Item [%s] added.", item.getName()));
         }
-
-        /**
-         * @return action description.
-         */
-        @Override
-        public String actionInfo() {
-            return "Add item";
-        }
-
     }
 }
 
 /**
  * EditItem.
  */
-class EditItem implements Action {
+class EditItem extends BaseAction {
     /**
      * @return action key.
      */
     @Override
     public int key() {
         return 2;
+    }
+
+    /**
+     * @return name.
+     */
+    @Override
+    public String name() {
+        return "Edit";
     }
 
     /**
@@ -176,26 +170,26 @@ class EditItem implements Action {
         tracker.update(item);
         io.answer(String.format("Item [%s] updated.", item.getId()));
     }
-
-    /**
-     * @return action description.
-     */
-    @Override
-    public String actionInfo() {
-        return "Edit item";
-    }
 }
 
 /**
  * ShowAll.
  */
-class ShowAll implements Action {
+class ShowAll extends BaseAction {
     /**
      * @return action key.
      */
     @Override
     public int key() {
         return 3;
+    }
+
+    /**
+     * @return name.
+     */
+    @Override
+    public String name() {
+        return "Show all";
     }
 
     /**
@@ -207,26 +201,26 @@ class ShowAll implements Action {
         ItemsPrinter itemsPrinter = new ItemsPrinter();
         itemsPrinter.printList(tracker.getItems(), io);
     }
-
-    /**
-     * @return action description.
-     */
-    @Override
-    public String actionInfo() {
-        return "Show all items";
-    }
 }
 
 /**
  * FindById.
  */
-class FindById implements Action {
+class FindById extends BaseAction {
     /**
      * @return action key.
      */
     @Override
     public int key() {
         return 4;
+    }
+
+    /**
+     * @return name.
+     */
+    @Override
+    public String name() {
+        return "Find by ID";
     }
 
     /**
@@ -245,26 +239,26 @@ class FindById implements Action {
         }
         io.answer(System.getProperty("line.separator"));
     }
-
-    /**
-     * @return action description.
-     */
-    @Override
-    public String actionInfo() {
-        return "Find by ID";
-    }
 }
 
 /**
  * FindByName.
  */
-class FindByName implements Action {
+class FindByName extends BaseAction {
     /**
      * @return action key.
      */
     @Override
     public int key() {
         return 5;
+    }
+
+    /**
+     * @return name.
+     */
+    @Override
+    public String name() {
+        return "Find by name";
     }
 
     /**
@@ -277,26 +271,26 @@ class FindByName implements Action {
         ItemsPrinter itemsPrinter = new ItemsPrinter();
         itemsPrinter.printList(tracker.findByName(name), io);
     }
-
-    /**
-     * @return action description.
-     */
-    @Override
-    public String actionInfo() {
-        return "Find by name";
-    }
 }
 
 /**
  * DeleteItem.
  */
-class DeleteItem implements Action {
+class DeleteItem extends BaseAction {
     /**
      * @return action key.
      */
     @Override
     public int key() {
         return 6;
+    }
+
+    /**
+     * @return action name.
+     */
+    @Override
+    public String name() {
+        return "Delete item";
     }
 
     /**
@@ -314,20 +308,12 @@ class DeleteItem implements Action {
             io.answer("No such item.");
         }
     }
-
-    /**
-     * @return action description.
-     */
-    @Override
-    public String actionInfo() {
-        return "Delete item";
-    }
 }
 
 /**
  * Exit.
  */
-class Exit implements Action {
+class Exit extends BaseAction {
     /**
      * @return action key.
      */
@@ -337,19 +323,19 @@ class Exit implements Action {
     }
 
     /**
+     * @return name.
+     */
+    @Override
+    public String name() {
+        return "Exit";
+    }
+
+    /**
      * @param tracker with tasks.
      * @param io      to interact.
      */
     @Override
     public void execute(Tracker tracker, IO io) {
         io.answer("Bue..");
-    }
-
-    /**
-     * @return action description.
-     */
-    @Override
-    public String actionInfo() {
-        return "Exit";
     }
 }
