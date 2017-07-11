@@ -40,14 +40,14 @@ class TrackerMenu {
      */
     private void fillMenuItems() {
         int position = 0;
-        actions[position++] = new TrackerMenu.LoadStubs();
-        actions[position++] = this.new AddItem();
-        actions[position++] = new EditItem();
-        actions[position++] = new ShowAll();
-        actions[position++] = new FindById();
-        actions[position++] = new FindByName();
-        actions[position++] = new DeleteItem();
-        actions[position] = new Exit();
+        actions[position++] = new TrackerMenu.LoadStubs(0, "Load stubs");
+        actions[position++] = this.new AddItem(1, "Add item");
+        actions[position++] = new EditItem(2, "Edit item");
+        actions[position++] = new ShowAll(3, "Show all");
+        actions[position++] = new FindById(4, "Find by ID");
+        actions[position++] = new FindByName(5, "Find by name");
+        actions[position++] = new DeleteItem(6, "Delete item");
+        actions[position] = new Exit(7, "Exit");
     }
 
     /**
@@ -79,19 +79,11 @@ class TrackerMenu {
      */
     private static class LoadStubs extends BaseAction {
         /**
-         * @return action key.
+         * @param key  of action.
+         * @param name of action.
          */
-        @Override
-        public int key() {
-            return 0;
-        }
-
-        /**
-         * @return name.
-         */
-        @Override
-        public String name() {
-            return "Load stubs";
+        LoadStubs(int key, String name) {
+            super(key, name);
         }
 
         /**
@@ -115,19 +107,11 @@ class TrackerMenu {
      */
     private class AddItem extends BaseAction {
         /**
-         * @return action key.
+         * @param key  of action.
+         * @param name of action.
          */
-        @Override
-        public int key() {
-            return 1;
-        }
-
-        /**
-         * @return name.
-         */
-        @Override
-        public String name() {
-            return "Add item";
+        AddItem(int key, String name) {
+            super(key, name);
         }
 
         /**
@@ -148,19 +132,11 @@ class TrackerMenu {
  */
 class EditItem extends BaseAction {
     /**
-     * @return action key.
+     * @param key  of action.
+     * @param name of action.
      */
-    @Override
-    public int key() {
-        return 2;
-    }
-
-    /**
-     * @return name.
-     */
-    @Override
-    public String name() {
-        return "Edit";
+    EditItem(int key, String name) {
+        super(key, name);
     }
 
     /**
@@ -189,19 +165,11 @@ class EditItem extends BaseAction {
  */
 class ShowAll extends BaseAction {
     /**
-     * @return action key.
+     * @param key  of action.
+     * @param name of action.
      */
-    @Override
-    public int key() {
-        return 3;
-    }
-
-    /**
-     * @return name.
-     */
-    @Override
-    public String name() {
-        return "Show all";
+    ShowAll(int key, String name) {
+        super(key, name);
     }
 
     /**
@@ -220,19 +188,11 @@ class ShowAll extends BaseAction {
  */
 class FindById extends BaseAction {
     /**
-     * @return action key.
+     * @param key  of action.
+     * @param name of action.
      */
-    @Override
-    public int key() {
-        return 4;
-    }
-
-    /**
-     * @return name.
-     */
-    @Override
-    public String name() {
-        return "Find by ID";
+    FindById(int key, String name) {
+        super(key, name);
     }
 
     /**
@@ -258,19 +218,11 @@ class FindById extends BaseAction {
  */
 class FindByName extends BaseAction {
     /**
-     * @return action key.
+     * @param key  of action.
+     * @param name of action.
      */
-    @Override
-    public int key() {
-        return 5;
-    }
-
-    /**
-     * @return name.
-     */
-    @Override
-    public String name() {
-        return "Find by name";
+    FindByName(int key, String name) {
+        super(key, name);
     }
 
     /**
@@ -290,19 +242,11 @@ class FindByName extends BaseAction {
  */
 class DeleteItem extends BaseAction {
     /**
-     * @return action key.
+     * @param key  of action.
+     * @param name of action.
      */
-    @Override
-    public int key() {
-        return 6;
-    }
-
-    /**
-     * @return action name.
-     */
-    @Override
-    public String name() {
-        return "Delete item";
+    DeleteItem(int key, String name) {
+        super(key, name);
     }
 
     /**
@@ -327,19 +271,11 @@ class DeleteItem extends BaseAction {
  */
 class Exit extends BaseAction {
     /**
-     * @return action key.
+     * @param key  of action.
+     * @param name of action.
      */
-    @Override
-    public int key() {
-        return 7;
-    }
-
-    /**
-     * @return name.
-     */
-    @Override
-    public String name() {
-        return "Exit";
+    Exit(int key, String name) {
+        super(key, name);
     }
 
     /**
