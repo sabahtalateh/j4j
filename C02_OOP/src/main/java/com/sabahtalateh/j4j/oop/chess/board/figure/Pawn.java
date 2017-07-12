@@ -21,28 +21,30 @@ public class Pawn extends Figure {
 
     @Override
     public boolean canGoTo(Cell position) throws CanNotGoException {
+        boolean result = false;
+
         if (this.position.getY() != position.getY()) {
-            throw new CanNotGoException("Pawn can only goes vertically");
+            this.setCanNotGoReason("Pawn can only goes vertically");
         }
 
         int distance = position.getX() - this.position.getX();
         if (distance < 1) {
-            throw new CanNotGoException("Pawn can only goes forward");
+            this.setCanNotGoReason("Pawn can only goes forward");
         }
 
         if (distance == 2) {
             if (this.firsStep) {
-                return true;
+                result = true;
             } else {
-                throw new CanNotGoException("Pawn can goes two cells only at the first step");
+                this.setCanNotGoReason("Pawn can goes two cells only at the first step");
             }
         }
 
         if (distance > 2) {
-            throw new CanNotGoException("Pawn can not go so far");
+            this.setCanNotGoReason("Pawn can not go so far");
         }
 
-        return true;
+        return result;
     }
 
 
@@ -59,7 +61,7 @@ public class Pawn extends Figure {
      * @return cells.
      */
     @Override
-    public Cell[] getPathCells(Cell to, Board board) throws NoSuchCellException {
+    public Cell[] getPathThroughCells(Cell to, Board board) throws NoSuchCellException {
         int distance = to.getX() - this.position.getX();
         if (distance == 1) {
             return new Cell[0];

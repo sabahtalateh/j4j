@@ -42,7 +42,7 @@ public class Board {
             throw new CellIsOccupiedException("Cannot mode figure to occupied cell");
         }
 
-        Cell[] pathCells = figureFrom.get().getPathCells(to, this);
+        Cell[] pathCells = figureFrom.get().getPathThroughCells(to, this);
         for (Cell c : pathCells) {
             if (this.figures.stream().anyMatch(figure -> figure.getPosition().equals(c))) {
                 throw new WayIsOccupiedException("Cannot go over other figures");
@@ -57,10 +57,14 @@ public class Board {
     }
 
     public Cell getCell(int x, int y) throws NoSuchCellException {
-        if (x >= this.cells.length || y >= this.cells[0].length) {
+        if (!this.cellBelongsToBoard(new Cell(x, y))) {
             throw new NoSuchCellException(String.format("No cell {%s, %s}", x, y));
         }
 
         return this.cells[x][y];
+    }
+
+    private boolean cellBelongsToBoard(Cell cell) {
+        return !(cell.getX() >= this.cells.length || cell.getY() >= this.cells[0].length || cell.getX() < 0 || cell.getY() < 0);
     }
 }

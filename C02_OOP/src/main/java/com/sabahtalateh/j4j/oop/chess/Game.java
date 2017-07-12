@@ -1,6 +1,7 @@
 package com.sabahtalateh.j4j.oop.chess;
 
 import com.sabahtalateh.j4j.oop.chess.board.*;
+import com.sabahtalateh.j4j.oop.chess.board.figure.Bishop;
 import com.sabahtalateh.j4j.oop.chess.board.figure.CanNotGoException;
 
 /**
@@ -8,7 +9,10 @@ import com.sabahtalateh.j4j.oop.chess.board.figure.CanNotGoException;
  */
 public class Game {
     public static void main(String[] args) throws ImpossibleToAddFigureException, NoSuchCellException, FigureNotFoundException, CanNotGoException, CellIsOccupiedException, WayIsOccupiedException {
-//        Board board = new Board(8);
+        Board board = new Board(8);
+        board.addFigure(new Bishop(0, 0));
+
+
 //        board.addFigure(new Pawn(1, 0));
 //        board.addFigure(new Pawn(1, 1));
 //        board.addFigure(new Pawn(1, 2));
@@ -17,6 +21,10 @@ public class Game {
 //        board.addFigure(new Pawn(1, 5));
 //        board.addFigure(new Pawn(1, 6));
 //        board.addFigure(new Pawn(1, 7));
+//
+//        board.move(0, 0, 7, 7);
+
+//        board.move(0, 0, 5, 0);
 //
 //
 //        board.addFigure(new Pawn(0, 3));
