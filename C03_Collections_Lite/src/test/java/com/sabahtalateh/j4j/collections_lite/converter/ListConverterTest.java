@@ -3,6 +3,7 @@ package com.sabahtalateh.j4j.collections_lite.converter;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
@@ -43,5 +44,17 @@ public class ListConverterTest {
 
         int[][] expected = new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 0, 0}};
         assertThat(listConverter.toArray(list, 3), is(expected));
+    }
+
+    @Test
+    public void convert() throws Exception {
+        ListConverter listConverter = new ListConverter();
+
+        List<int[]> input = new ArrayList<>();
+        input.add(new int[]{1, 2});
+        input.add(new int[]{3, 4, 5, 6});
+
+        List<Integer> expected = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6));
+        assertThat(listConverter.convert(input), is(expected));
     }
 }

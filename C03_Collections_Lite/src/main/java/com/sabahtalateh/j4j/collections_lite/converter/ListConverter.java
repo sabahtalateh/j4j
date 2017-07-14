@@ -46,4 +46,20 @@ public class ListConverter {
 
         return array;
     }
+
+    /**
+     * @param list of elements to convert.
+     * @return converted array.
+     */
+    public List<Integer> convert(List<int[]> list) {
+        List<Integer> result = new ArrayList<>();
+
+        for (int[] array : list) {
+            for (int element : array) {
+                result.add(element);
+            }
+        }
+
+        return result;
+    }
 }
