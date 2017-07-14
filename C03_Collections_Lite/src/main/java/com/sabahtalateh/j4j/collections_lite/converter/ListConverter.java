@@ -1,4 +1,4 @@
-package com.sabahtalateh.j4j.collections_lite.convert;
+package com.sabahtalateh.j4j.collections_lite.converter;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class ListConverter {
     /**
-     * @param array to convert.
+     * @param array to converter.
      * @return list.
      */
     public List<Integer> toList(int[][] array) {
@@ -23,6 +23,11 @@ public class ListConverter {
         return list;
     }
 
+    /**
+     * @param list to convert.
+     * @param size of result array.
+     * @return array.
+     */
     public int[][] toArray(List<Integer> list, int size) {
         Iterator<Integer> iterator = list.iterator();
 
@@ -39,20 +44,6 @@ public class ListConverter {
             }
         }
 
-
         return array;
-    }
-
-    public static void main(String[] args) {
-        List<Integer> expected = new ArrayList<>();
-        expected.add(1);
-        expected.add(2);
-        expected.add(3);
-        expected.add(4);
-        expected.add(5);
-        expected.add(6);
-        expected.add(7);
-
-        new ListConverter().toArray(expected, 3);
     }
 }
