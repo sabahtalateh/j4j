@@ -10,6 +10,7 @@
     <modules>
         <module>C01_Basics</module>
         <module>C02_OOP</module>
+        <module>C03_Collections_Lite</module>
     </modules>
     <packaging>pom</packaging>
 
