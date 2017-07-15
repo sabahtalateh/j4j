@@ -22,7 +22,7 @@ public class TrackerUITest {
 
     @Before
     public void setUp() throws Exception {
-        this.tracker = new Tracker(100);
+        this.tracker = new Tracker();
         this.io = new StubIO();
         this.ui = new StartUI(this.io, this.tracker);
     }
@@ -44,7 +44,7 @@ public class TrackerUITest {
         };
         this.ui.run();
 
-        assertThat(this.tracker.getItems().length, is(12));
+        assertThat(this.tracker.getItems().size(), is(12));
     }
 
     @Test
@@ -60,7 +60,7 @@ public class TrackerUITest {
         };
         this.ui.run();
 
-        assertThat(this.tracker.getItems().length, is(2));
+        assertThat(this.tracker.getItems().size(), is(2));
     }
 
     @Test
@@ -81,7 +81,7 @@ public class TrackerUITest {
         };
         this.io.setActionSequence(actions);
         this.ui.run();
-        assertThat(this.tracker.getItems().length, is(3));
+        assertThat(this.tracker.getItems().size(), is(3));
 
         String[] answers = this.io.getAnswers();
         assertThat(answers[answers.length - 2], is("2 items printed."));
@@ -104,7 +104,7 @@ public class TrackerUITest {
         this.io.setActionSequence(actions);
         this.ui.run();
 
-        Item item = tracker.getItems()[0];
+        Item item = tracker.getItems().get(0);
         String id = item.getId();
 
         actions = new String[]{
@@ -131,7 +131,7 @@ public class TrackerUITest {
         this.io.setActionSequence(actions);
         this.ui.run();
 
-        Item item = tracker.getItems()[0];
+        Item item = tracker.getItems().get(0);
         String id = item.getId();
 
         actions = new String[]{
@@ -165,7 +165,7 @@ public class TrackerUITest {
         this.io.setActionSequence(actions);
         this.ui.run();
 
-        Item item = tracker.getItems()[0];
+        Item item = tracker.getItems().get(0);
         String id = item.getId();
 
         assertThat(tracker.findById(id), is(notNullValue()));

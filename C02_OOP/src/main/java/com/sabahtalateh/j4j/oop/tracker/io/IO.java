@@ -1,5 +1,7 @@
 package com.sabahtalateh.j4j.oop.tracker.io;
 
+import java.util.List;
+
 /**
  * IO.
  */
@@ -15,7 +17,7 @@ public interface IO {
      * @param allowedValues to validate.
      * @return answer.
      */
-    int ask(String question, int[] allowedValues);
+    int ask(String question, List<Integer> allowedValues);
 
     /**
      * @param answer to io.

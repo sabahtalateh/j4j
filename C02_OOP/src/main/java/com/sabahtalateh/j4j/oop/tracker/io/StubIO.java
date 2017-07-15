@@ -1,6 +1,7 @@
 package com.sabahtalateh.j4j.oop.tracker.io;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * StubIO.
@@ -30,7 +31,7 @@ public class StubIO implements IO {
      * @return answer.
      */
     @Override
-    public int ask(String question, int[] allowedValues) {
+    public int ask(String question, List<Integer> allowedValues) {
         return Integer.valueOf(this.actionSequence[actionPointer++]);
     }
 

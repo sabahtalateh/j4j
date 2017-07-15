@@ -3,6 +3,8 @@ package com.sabahtalateh.j4j.oop.tracker;
 import com.sabahtalateh.j4j.oop.tracker.io.IO;
 import org.atteo.evo.inflector.English;
 
+import java.util.List;
+
 /**
  * ItemsPrinter.
  */
@@ -11,13 +13,13 @@ public class ItemsPrinter {
      * @param items to print.
      * @param io    to interact.
      */
-    public void printList(Item[] items, IO io) {
+    public void printList(List<Item> items, IO io) {
         for (Item item : items) {
             this.printSingle(item, io);
         }
 
-        if (items.length != 0) {
-            io.answer(String.format("%s %s printed.", items.length, English.plural("item", items.length)));
+        if (items.size() != 0) {
+            io.answer(String.format("%s %s printed.", items.size(), English.plural("item", items.size())));
         } else {
             io.answer("No items in tracker");
         }

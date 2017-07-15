@@ -2,6 +2,8 @@ package com.sabahtalateh.j4j.oop.tracker.io;
 
 import com.sabahtalateh.j4j.oop.tracker.OutOfRangeException;
 
+import java.util.List;
+
 /**
  * ValidatedIO.
  */
@@ -12,7 +14,7 @@ public class ValidatedIO extends ConsoleIO {
      * @return validated answer.
      */
     @Override
-    public int ask(String question, int[] allowedValues) {
+    public int ask(String question, List<Integer> allowedValues) {
         int answer = -1;
         boolean valid = false;
         do {

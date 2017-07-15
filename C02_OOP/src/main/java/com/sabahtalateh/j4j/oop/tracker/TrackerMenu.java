@@ -2,6 +2,9 @@ package com.sabahtalateh.j4j.oop.tracker;
 
 import com.sabahtalateh.j4j.oop.tracker.io.IO;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * TrackerMenu.
  */
@@ -11,9 +14,9 @@ class TrackerMenu {
 
     private Tracker tracker;
 
-    private final Action[] actions = new Action[8];
+    private final List<Action> actions = new ArrayList<>();
 
-    private int[] actionKeys = new int[8];
+    private List<Integer> actionKeys = new ArrayList<>();
 
     /**
      * @param io      IO system.
@@ -30,8 +33,8 @@ class TrackerMenu {
      * Fill menu action keys.
      */
     private void fillActionKeys() {
-        for (int i = 0; i < actions.length; i++) {
-            actionKeys[i] = i;
+        for (int i = 0; i < this.actions.size(); i++) {
+            actionKeys.add(i, i);
         }
     }
 
@@ -40,14 +43,14 @@ class TrackerMenu {
      */
     private void fillMenuItems() {
         int position = 0;
-        actions[position++] = new TrackerMenu.LoadStubs(0, "Load stubs");
-        actions[position++] = this.new AddItem(1, "Add item");
-        actions[position++] = new EditItem(2, "Edit item");
-        actions[position++] = new ShowAll(3, "Show all");
-        actions[position++] = new FindById(4, "Find by ID");
-        actions[position++] = new FindByName(5, "Find by name");
-        actions[position++] = new DeleteItem(6, "Delete item");
-        actions[position] = new Exit(7, "Exit");
+        this.actions.add(position++, new TrackerMenu.LoadStubs(0, "Load stubs"));
+        this.actions.add(position++, this.new AddItem(1, "Add item"));
+        this.actions.add(position++, new EditItem(2, "Edit item"));
+        this.actions.add(position++, new ShowAll(3, "Show all"));
+        this.actions.add(position++, new FindById(4, "Find by ID"));
+        this.actions.add(position++, new FindByName(5, "Find by name"));
+        this.actions.add(position++, new DeleteItem(6, "Delete item"));
+        this.actions.add(position, new Exit(7, "Exit"));
     }
 
     /**
@@ -67,7 +70,7 @@ class TrackerMenu {
         while (!(action instanceof Exit)) {
             presentMenu();
             int actionKey = io.ask("Select action: ", this.actionKeys);
-            action = actions[actionKey];
+            action = actions.get(actionKey);
             action.execute(tracker, io);
         }
     }
