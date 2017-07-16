@@ -18,7 +18,7 @@ public class ItemsPrinter {
             this.printSingle(item, io);
         }
 
-        if (items.size() != 0) {
+        if (!items.isEmpty()) {
             io.answer(String.format("%s %s printed.", items.size(), English.plural("item", items.size())));
         } else {
             io.answer("No items in tracker");
