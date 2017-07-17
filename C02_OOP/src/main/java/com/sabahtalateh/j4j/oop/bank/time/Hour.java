@@ -37,8 +37,12 @@ public class Hour implements Comparable<Hour> {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Hour hour = (Hour) o;
 
@@ -53,6 +57,10 @@ public class Hour implements Comparable<Hour> {
         return value;
     }
 
+    /**
+     * @param o to compare.
+     * @return result.
+     */
     @Override
     public int compareTo(Hour o) {
         return ((Integer) this.getValue()).compareTo(o.getValue());

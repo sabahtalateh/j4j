@@ -3,7 +3,7 @@ package com.sabahtalateh.j4j.oop.bank.time;
 /**
  * Minute.
  */
-public class Minute {
+public class Minute implements Comparable<Minute> {
     private final int value;
 
     /**
@@ -29,5 +29,14 @@ public class Minute {
      */
     public int getValue() {
         return value;
+    }
+
+    /**
+     * @param o to compare.
+     * @return result.
+     */
+    @Override
+    public int compareTo(Minute o) {
+        return ((Integer) this.getValue()).compareTo(o.getValue());
     }
 }

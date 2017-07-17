@@ -3,12 +3,12 @@ package com.sabahtalateh.j4j.oop.bank.time;
 /**
  * Time.
  */
-public class Time {
+public class Time implements Comparable<Time> {
     private final Hour hour;
     private final Minute minute;
 
     /**
-     * @param hour    hours in time.
+     * @param hour   hours in time.
      * @param minute minute in time.
      */
     public Time(Hour hour, Minute minute) {
@@ -17,7 +17,7 @@ public class Time {
     }
 
     /**
-     * @param hour    hours in time.
+     * @param hour   hours in time.
      * @param minute minute in time.
      */
     public Time(int hour, int minute) {
@@ -45,5 +45,20 @@ public class Time {
      */
     public Minute getMinute() {
         return this.minute;
+    }
+
+    /**
+     * @param o to compare.
+     * @return result.
+     */
+    @Override
+    public int compareTo(Time o) {
+        int hourCompareResult = o.getHour().compareTo(this.getHour());
+
+        if (hourCompareResult == 0) {
+            return o.getMinute().compareTo(this.getMinute());
+        }
+
+        return hourCompareResult;
     }
 }
