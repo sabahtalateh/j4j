@@ -39,6 +39,9 @@ public class User implements Comparable<User> {
         return ((Integer) this.getAge()).compareTo(user.getAge());
     }
 
+    /**
+     * @return string.
+     */
     @Override
     public String toString() {
         return "User{name='" + name + ", age=" + age + '}';
