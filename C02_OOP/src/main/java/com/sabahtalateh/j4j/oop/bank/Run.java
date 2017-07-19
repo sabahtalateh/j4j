@@ -21,6 +21,7 @@ public class Run {
         Client c3 = new Client("Masha");
         Client c4 = new Client("Borya");
 
+        bank.clientCame(c3);
         bank.setTime(13, 46);
         bank.clientCame(c1);
         bank.completeDay();

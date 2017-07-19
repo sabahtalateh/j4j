@@ -12,10 +12,8 @@ import java.util.*;
  */
 public class BankDay {
 
-    static final Time BANK_DAY_START = new Time(8, 0);
-    static final Time BANK_DAY_END = new Time(19, 59);
-
-    private final Map<Hour, Integer> bankLoadingStatistic = new HashMap<>();
+    public static final Time BANK_DAY_START = new Time(8, 0);
+    public static final Time BANK_DAY_END = new Time(19, 59);
 
     private Time currentDayTime;
 
@@ -23,19 +21,12 @@ public class BankDay {
 
     private boolean dayCompleted = false;
 
+    private List<ClientTimePeriod> clientTimePeriods = new ArrayList<>();
+
     /**
      * Clients that are in bank now, with time when they were came in.
      */
     private final Map<Client, Time> clientsInBank = new HashMap<>();
-
-    /**
-     * Default constructor.
-     */
-    public BankDay() {
-        for (int i = BANK_DAY_START.getHour().getValue(); i <= BANK_DAY_END.getHour().getValue(); i++) {
-            bankLoadingStatistic.put(new Hour(i), 0);
-        }
-    }
 
     /**
      * Start bank day.
@@ -73,60 +64,9 @@ public class BankDay {
      * @param client who left.
      */
     public void clientLeft(Client client) {
-        Time clientCameTime = clientsInBank.get(client);
-        for (int i = clientCameTime.getHour().getValue(); i <= this.currentDayTime.getHour().getValue(); i++) {
-            Hour hour = new Hour(i);
-            bankLoadingStatistic.put(hour, bankLoadingStatistic.get(hour) + 1);
-        }
+        Time cameTime = clientsInBank.get(client);
+        this.clientTimePeriods.add(new ClientTimePeriod(client, cameTime, this.currentDayTime));
         clientsInBank.remove(client);
-    }
-
-    /**
-     * @return calculate time periods with highest loading.
-     * @throws CanNotCalculateException if can not calculate.
-     */
-    public List<HourPeriod> calculateHighestLoadingPeriods() throws CanNotCalculateException {
-
-        if (!this.dayCompleted) {
-            throw new CanNotCalculateException("Can not calculate statistic of not finished day.");
-        }
-
-        ArrayList<HourPeriod> periods = new ArrayList<>();
-
-        // Calculate maximum loading.
-        Optional<Integer> maxLoading = this.bankLoadingStatistic.values().stream().max(Integer::compareTo);
-
-        // Group hours by maximum loading.
-        Map<Integer, List<Hour>> hoursByLoading = new HashMap<>();
-        for (Map.Entry<Hour, Integer> e : this.bankLoadingStatistic.entrySet()) {
-            hoursByLoading.putIfAbsent(e.getValue(), new ArrayList<>());
-            hoursByLoading.get(e.getValue()).add(e.getKey());
-        }
-
-        // If there is no maximum loading at current day than return
-        if (!maxLoading.isPresent()) {
-            return periods;
-        }
-
-        // Sort maximum loading hours.
-        List<Hour> maxLoadingHours = hoursByLoading.get(maxLoading.get());
-        maxLoadingHours.sort(Hour::compareTo);
-
-        // Perform periods.
-        HourPeriod hourPeriod = new HourPeriod(maxLoadingHours.get(0), new Hour(maxLoadingHours.get(0).getValue() + 1));
-        for (int i = 1; i < maxLoadingHours.size(); i++) {
-            Hour hour = maxLoadingHours.get(i);
-            if (hour.getValue() == hourPeriod.getEnd().getValue()) {
-                hourPeriod = new HourPeriod(hourPeriod.getStart(), new Hour(hour.getValue() + 1));
-            } else {
-                periods.add(hourPeriod);
-                hourPeriod = new HourPeriod(hour, new Hour(hour.getValue() + 1));
-            }
-        }
-
-        periods.add(hourPeriod);
-
-        return periods;
     }
 
     /**
@@ -162,17 +102,17 @@ public class BankDay {
     }
 
     /**
-     * @return get statistic.
-     */
-    public Map<Hour, Integer> getBankLoadingStatistic() {
-        return this.bankLoadingStatistic;
-    }
-
-    /**
      * @param time to check.
      * @return result.
      */
     private boolean isBankWorking(Time time) {
         return !this.dayCompleted && this.dayStarted && (time.getHour().getValue() >= 8 && time.getHour().getValue() <= 20);
+    }
+
+    /**
+     * @return client time periods.
+     */
+    public List<ClientTimePeriod> getClientTimePeriods() {
+        return this.clientTimePeriods;
     }
 }
