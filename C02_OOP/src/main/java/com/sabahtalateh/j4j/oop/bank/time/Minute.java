@@ -39,4 +39,30 @@ public class Minute implements Comparable<Minute> {
     public int compareTo(Minute o) {
         return ((Integer) this.getValue()).compareTo(o.getValue());
     }
+
+    /**
+     * @param o object.
+     * @return result.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Minute minute = (Minute) o;
+
+        return value == minute.value;
+    }
+
+    /**
+     * @return hash code.
+     */
+    @Override
+    public int hashCode() {
+        return value;
+    }
 }

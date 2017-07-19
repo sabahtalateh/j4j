@@ -1,11 +1,12 @@
 package com.sabahtalateh.j4j.oop.bank;
 
 import com.sabahtalateh.j4j.oop.bank.time.Hour;
-import com.sabahtalateh.j4j.oop.bank.time.HourPeriod;
 import com.sabahtalateh.j4j.oop.bank.time.Minute;
 import com.sabahtalateh.j4j.oop.bank.time.Time;
+import com.sabahtalateh.j4j.oop.bank.time.TimePeriod;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Bank.
@@ -77,48 +78,80 @@ public class Bank {
     /**
      * @return statistic.
      */
-    public List<HourPeriod> calculateHighestLoadingPeriods() {
-        ArrayList<HourPeriod> periods = new ArrayList<>();
+    public List<TimePeriod> calculateHighestLoadingPeriods() {
+        List<TimePeriod> emptyResult = new ArrayList<TimePeriod>() {{
+            add(new TimePeriod(BankDay.BANK_DAY_START, BankDay.BANK_DAY_END));
+        }};
 
-        // Sum days loading statistics.
-        Map<Hour, Integer> bankLoadingStatistic = new HashMap<>();
-        for (int i = BankDay.BANK_DAY_START.getHour().getValue(); i <= BankDay.BANK_DAY_END.getHour().getValue(); i++) {
-            bankLoadingStatistic.put(new Hour(i), 0);
+        // Reduce all client time periods in single array.
+        Optional<List<ClientTimePeriod>> clientTimes =
+                this.bankDays.stream()
+                        .map(BankDay::getClientTimePeriods)
+                        .reduce(((clientTimePeriods1, clientTimePeriods2) -> new ArrayList<ClientTimePeriod>() {{
+                            addAll(clientTimePeriods1);
+                            addAll(clientTimePeriods2);
+                        }}));
+
+        if (!clientTimes.isPresent()) {
+            return emptyResult;
         }
-        for (BankDay day : this.bankDays) {
-            for (Map.Entry<Hour, Integer> entry : day.getBankLoadingStatistic().entrySet()) {
-                bankLoadingStatistic.putIfAbsent(entry.getKey(), 0);
-                bankLoadingStatistic.put(entry.getKey(), bankLoadingStatistic.get(entry.getKey()) + entry.getValue());
+
+        // Make collection of TimePeriods from collection of ClientTimePeriod.
+        List<TimePeriod> timePeriods = clientTimes.get().stream()
+                .map(clientTimePeriod -> new TimePeriod(clientTimePeriod.getCame(), clientTimePeriod.getLeft()))
+                .collect(Collectors.toList());
+
+        Collection<Collection<Time>> timePeriodsCollection = timePeriods.stream()
+                .map(o -> new ArrayList<Time>() {{
+                    add(o.getFrom());
+                    add(o.getTo());
+                }}).collect(Collectors.toList());
+
+        // Make times set from time periods collection.
+        Optional<Collection<Time>> times = timePeriodsCollection.stream()
+                .reduce((times1, times2) -> new TreeSet<Time>(Comparator.reverseOrder()) {{
+                    addAll(times1);
+                    addAll(times2);
+                }});
+
+        if (!times.isPresent()) {
+            return emptyResult;
+        }
+
+        Map<TimePeriod, Integer> loadingPeriods = new TreeMap<>((o1, o2) -> o2.getFrom().compareTo(o1.getFrom()));
+
+        if (times.get().size() <= 1) {
+            return emptyResult;
+        }
+
+        List<Time> timesList = new ArrayList<Time>() {{
+            addAll(times.get());
+        }};
+
+        for (int i = 0; i < timesList.size() - 1; i++) {
+            Time current = timesList.get(i);
+            Time next = timesList.get(i + 1);
+            loadingPeriods.put(new TimePeriod(current, next), 0);
+        }
+
+        for (TimePeriod timePeriod : timePeriods) {
+            for (Map.Entry<TimePeriod, Integer> e : loadingPeriods.entrySet()) {
+                if (timePeriod.getFrom().compareTo(e.getKey().getFrom()) >= 0 && timePeriod.getTo().compareTo(e.getKey().getTo()) <= 0) {
+                    e.setValue(e.getValue() + 1);
+                }
             }
         }
 
-        Optional<Integer> maxLoading = bankLoadingStatistic.values().stream().max(Integer::compareTo);
+        Optional<Integer> maxLoading = loadingPeriods.values().stream().max(Integer::compareTo);
 
-        // Group hours by maximum loading.
-        Map<Integer, List<Hour>> hoursByLoading = new HashMap<>();
-        for (Map.Entry<Hour, Integer> e : bankLoadingStatistic.entrySet()) {
-            hoursByLoading.putIfAbsent(e.getValue(), new ArrayList<>());
-            hoursByLoading.get(e.getValue()).add(e.getKey());
+        if (!maxLoading.isPresent()) {
+            return emptyResult;
         }
 
-        // Sort maximum loading hours.
-        List<Hour> maxLoadingHours = hoursByLoading.get(maxLoading.get());
-        maxLoadingHours.sort(Hour::compareTo);
-
-        // Perform periods.
-        HourPeriod hourPeriod = new HourPeriod(maxLoadingHours.get(0), new Hour(maxLoadingHours.get(0).getValue() + 1));
-        for (int i = 1; i < maxLoadingHours.size(); i++) {
-            Hour hour = maxLoadingHours.get(i);
-            if (hour.getValue() == hourPeriod.getEnd().getValue()) {
-                hourPeriod = new HourPeriod(hourPeriod.getStart(), new Hour(hour.getValue() + 1));
-            } else {
-                periods.add(hourPeriod);
-                hourPeriod = new HourPeriod(hour, new Hour(hour.getValue() + 1));
-            }
-        }
-
-        periods.add(hourPeriod);
-
-        return periods;
+        return loadingPeriods.entrySet().stream()
+                .filter(entry -> entry.getValue().equals(maxLoading.get()))
+                .map(Map.Entry::getKey)
+                .sorted((o1, o2) -> o2.getFrom().compareTo(o1.getFrom()))
+                .collect(Collectors.toList());
     }
 }
