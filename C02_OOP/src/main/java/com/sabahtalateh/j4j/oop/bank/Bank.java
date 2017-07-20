@@ -1,6 +1,9 @@
 package com.sabahtalateh.j4j.oop.bank;
 
-import com.sabahtalateh.j4j.oop.bank.time.*;
+import com.sabahtalateh.j4j.oop.bank.time.Hour;
+import com.sabahtalateh.j4j.oop.bank.time.Minute;
+import com.sabahtalateh.j4j.oop.bank.time.Time;
+import com.sabahtalateh.j4j.oop.bank.time.TimePeriod;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -76,10 +79,10 @@ public class Bank {
      * @return statistic.
      */
     public List<ClientTimePeriod> calculateHighestLoadingPeriods() {
-        ArrayList<ClientTimePeriod> periods = new ArrayList<>();
+        List<ClientTimePeriod> periods = new ArrayList<>();
 
         // Reduce all client time periods in single array.
-        Optional<List<ClientTimePeriod>> clientTimePeriodsOptional =
+        Optional<List<ClientTimePeriod>> clientTimes =
                 this.bankDays.stream()
                         .map(BankDay::getClientTimePeriods)
                         .reduce(((clientTimePeriods1, clientTimePeriods2) -> new ArrayList<ClientTimePeriod>() {{
@@ -87,82 +90,73 @@ public class Bank {
                             addAll(clientTimePeriods2);
                         }}));
 
-        if (!clientTimePeriodsOptional.isPresent()) {
+        if (!clientTimes.isPresent()) {
             return periods;
         }
 
         // Make collection of TimePeriods from collection of ClientTimePeriod.
-        List<TimePeriod> timePeriods = clientTimePeriodsOptional.get().stream()
+        List<TimePeriod> timePeriods = clientTimes.get().stream()
                 .map(clientTimePeriod -> new TimePeriod(clientTimePeriod.getCame(), clientTimePeriod.getLeft()))
                 .collect(Collectors.toList());
-        timePeriods.sort((o1, o2) -> o2.getFrom().compareTo(o1.getFrom()));
 
-        // Find time positions when clients came or left.
-//        Optional<ArrayList<Time>> times = timePeriods.stream().map(o -> new ArrayList<Time>() {{
-//            add(o.getTo());
-//            add(o.getFrom());
-//        }}).reduce(((timePeriod, timePeriod2) -> new ArrayList<Time>(){{
-//            addAll(timePeriod);
-//            addAll(timePeriod2);
-//        }}));
-//        System.out.println("@@");
-//        System.out.println(times.get());
+        Collection<Collection<Time>> timePeriodsCollection = timePeriods.stream()
+                .map(o -> new ArrayList<Time>() {{
+                    add(o.getFrom());
+                    add(o.getTo());
+                }}).collect(Collectors.toList());
 
+        // Make times set from time periods collection.
+        Optional<Collection<Time>> times = timePeriodsCollection.stream()
+                .reduce((times1, times2) -> new TreeSet<Time>(Comparator.reverseOrder()) {{
+                    addAll(times1);
+                    addAll(times2);
+                }});
 
+        if (!times.isPresent()) {
+            return periods;
+        }
 
-//        Map<TimePeriod, Integer> timePeriodsLoading = new HashMap<>();
-//        for (int hour = BankDay.BANK_DAY_START.getHour().getValue(); hour < BankDay.BANK_DAY_END.getHour().getValue(); hour++) {
-//            for (int minute = 0; minute < 59; minute++) {
-//                for (TimePeriod period : timePeriods) {
-//                    if (period.getFrom().getHour().getValue() == hour && period.getFrom().getMinute().getValue() == minute) {
-//                        timePeriodsLoading.putIfAbsent(period, 1);
-//                    }
-//                }
-//            }
-//        }
+        Map<TimePeriod, Integer> loadingPeriods = new HashMap<>();
 
-//        System.out.println(timePeriodsLoading);
+        //sort loading periods
 
+        if (times.get().size() <= 1) {
+            return periods;
+        }
+
+        List<Time> timesList = new ArrayList<Time>() {{
+            addAll(times.get());
+        }};
+
+        for (int i = 0; i < timesList.size() - 1; i++) {
+            Time current = timesList.get(i);
+            Time next = timesList.get(i + 1);
+
+            if (i == timesList.size() - 2) {
+                loadingPeriods.put(new TimePeriod(current, next), 0);
+            } else {
+                next = next.getMinute().getValue() == 0
+                        ? new Time(next.getHour().getValue() - 1, 59)
+                        : new Time(next.getHour().getValue(), next.getMinute().getValue() - 1);
+            }
+
+            loadingPeriods.put(new TimePeriod(current, next), 0);
+        }
+
+        System.out.println(loadingPeriods);
         System.out.println(timePeriods);
 
-        // Sum days loading statistics.
-//        Map<Hour, Integer> bankLoadingStatistic = new HashMap<>();
-//        for (int i = BankDay.BANK_DAY_START.getHour().getValue(); i <= BankDay.BANK_DAY_END.getHour().getValue(); i++) {
-//            bankLoadingStatistic.put(new Hour(i), 0);
-//        }
-//        for (BankDay day : this.bankDays) {
-//            for (Map.Entry<Hour, Integer> entry : day.getBankLoadingStatistic().entrySet()) {
-//                bankLoadingStatistic.putIfAbsent(entry.getKey(), 0);
-//                bankLoadingStatistic.put(entry.getKey(), bankLoadingStatistic.get(entry.getKey()) + entry.getValue());
-//            }
-//        }
-//
-//        Optional<Integer> maxLoading = bankLoadingStatistic.values().stream().max(Integer::compareTo);
-//
-//        // Group hours by maximum loading.
-//        Map<Integer, List<Hour>> hoursByLoading = new HashMap<>();
-//        for (Map.Entry<Hour, Integer> e : bankLoadingStatistic.entrySet()) {
-//            hoursByLoading.putIfAbsent(e.getValue(), new ArrayList<>());
-//            hoursByLoading.get(e.getValue()).add(e.getKey());
-//        }
-//
-//        // Sort maximum loading hours.
-//        List<Hour> maxLoadingHours = hoursByLoading.get(maxLoading.get());
-//        maxLoadingHours.sort(Hour::compareTo);
-//
-//        // Perform periods.
-//        HourPeriod hourPeriod = new HourPeriod(maxLoadingHours.get(0), new Hour(maxLoadingHours.get(0).getValue() + 1));
-//        for (int i = 1; i < maxLoadingHours.size(); i++) {
-//            Hour hour = maxLoadingHours.get(i);
-//            if (hour.getValue() == hourPeriod.getTo().getValue()) {
-//                hourPeriod = new HourPeriod(hourPeriod.getFrom(), new Hour(hour.getValue() + 1));
-//            } else {
-//                periods.add(hourPeriod);
-//                hourPeriod = new HourPeriod(hour, new Hour(hour.getValue() + 1));
-//            }
-//        }
-//
-//        periods.add(hourPeriod);
+        for (TimePeriod timePeriod : timePeriods) {
+            for (Map.Entry<TimePeriod, Integer> e : loadingPeriods.entrySet()) {
+                if (timePeriod.getFrom().compareTo(e.getKey().getFrom()) >= 0 && timePeriod.getTo().compareTo(e.getKey().getTo()) <= 0) {
+                    e.setValue(e.getValue() + 1);
+                }
+            }
+        }
+
+        System.out.println(loadingPeriods);
+        System.out.println(timePeriods);
+
 
         return periods;
     }
