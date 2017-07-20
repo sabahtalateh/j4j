@@ -1,7 +1,9 @@
 package com.sabahtalateh.j4j.oop.bank;
 
-import com.sabahtalateh.j4j.oop.bank.time.Hour;
-import com.sabahtalateh.j4j.oop.bank.time.HourPeriod;
+//import com.sabahtalateh.j4j.oop.bank.time.Hour;
+//import com.sabahtalateh.j4j.oop.bank.time.HourPeriod;
+import com.sabahtalateh.j4j.oop.bank.time.Time;
+import com.sabahtalateh.j4j.oop.bank.time.TimePeriod;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -22,8 +24,9 @@ public class BankTest {
         bank.startDay();
         bank.completeDay();
 
-        List<HourPeriod> expected = new ArrayList<>();
-        expected.add(new HourPeriod(new Hour(8), new Hour(20)));
+        List<TimePeriod> expected = new ArrayList<TimePeriod>() {{
+            add(new TimePeriod(BankDay.BANK_DAY_START, BankDay.BANK_DAY_END));
+        }};
 
         assertThat(bank.calculateHighestLoadingPeriods(), is(expected));
     }
@@ -31,40 +34,36 @@ public class BankTest {
     @Test
     public void testStatisticsCalculation() throws Exception {
         Bank bank = new Bank();
-        Client ivan = new Client("Ivan");
-        Client igor = new Client("Igor");
-        Client masha = new Client("Masha");
-        Client lena = new Client("Lena");
+
+        Client c1 = new Client("Vova");
+        Client c2 = new Client("Misha");
+        Client c3 = new Client("Masha");
+        Client c4 = new Client("Borya");
 
         bank.startDay();
-        bank.clientCame(ivan);
-        bank.setTime(8, 30);
-        bank.clientLeft(ivan);
-
-        bank.setTime(14, 10);
-        bank.clientCame(igor);
-        bank.setTime(16, 30);
-        bank.clientLeft(igor);
-
+        bank.clientCame(c3);
+        bank.setTime(13, 46);
+        bank.clientCame(c1);
         bank.completeDay();
 
         bank.startDay();
-        bank.clientCame(lena);
-        bank.clientCame(masha);
-        bank.clientCame(ivan);
-        bank.setTime(8, 20);
-        bank.clientLeft(ivan);
+        bank.clientCame(c2);
+        bank.setTime(13, 52);
+        bank.clientCame(c4);
+        bank.setTime(13, 53);
+        bank.clientLeft(c4);
 
-        bank.setTime(14, 10);
-        bank.clientCame(igor);
-        bank.setTime(16, 30);
-        bank.clientLeft(igor);
+        bank.setTime(14, 52);
+        bank.clientCame(c4);
+        bank.setTime(15, 20);
+        bank.clientLeft(c4);
 
         bank.completeDay();
 
-        List<HourPeriod> expected = new ArrayList<>();
-        expected.add(new HourPeriod(new Hour(8), new Hour(9)));
-        expected.add(new HourPeriod(new Hour(14), new Hour(17)));
+        List<TimePeriod> expected = new ArrayList<TimePeriod>() {{
+            add(new TimePeriod(new Time(13, 52), new Time(13, 53)));
+            add(new TimePeriod(new Time(14, 52), new Time(15, 20)));
+        }};
 
         assertThat(bank.calculateHighestLoadingPeriods(), is(expected));
     }

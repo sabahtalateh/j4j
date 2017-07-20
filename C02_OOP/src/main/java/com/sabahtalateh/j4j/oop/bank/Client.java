@@ -48,6 +48,9 @@ public class Client {
         return name != null ? name.hashCode() : 0;
     }
 
+    /**
+     * @return string.
+     */
     @Override
     public String toString() {
         return "Client{name='" + name + '}';

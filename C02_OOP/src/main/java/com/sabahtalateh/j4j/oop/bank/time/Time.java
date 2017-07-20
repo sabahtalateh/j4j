@@ -61,4 +61,35 @@ public class Time implements Comparable<Time> {
 
         return hourCompareResult;
     }
+
+    /**
+     * @param o object.
+     * @return result.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Time time = (Time) o;
+
+        if (hour != null ? !hour.equals(time.hour) : time.hour != null) {
+            return false;
+        }
+        return minute != null ? minute.equals(time.minute) : time.minute == null;
+    }
+
+    /**
+     * @return has code.
+     */
+    @Override
+    public int hashCode() {
+        int result = hour != null ? hour.hashCode() : 0;
+        result = 31 * result + (minute != null ? minute.hashCode() : 0);
+        return result;
+    }
 }

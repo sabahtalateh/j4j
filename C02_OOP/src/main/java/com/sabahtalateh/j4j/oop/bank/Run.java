@@ -15,17 +15,16 @@ public class Run {
 
         Bank bank = new Bank();
 
-
         Client c1 = new Client("Vova");
         Client c2 = new Client("Misha");
         Client c3 = new Client("Masha");
         Client c4 = new Client("Borya");
 
-//        bank.startDay();
-//        bank.clientCame(c3);
-//        bank.setTime(13, 46);
-//        bank.clientCame(c1);
-//        bank.completeDay();
+        bank.startDay();
+        bank.clientCame(c3);
+        bank.setTime(13, 46);
+        bank.clientCame(c1);
+        bank.completeDay();
 
         bank.startDay();
         bank.clientCame(c2);
@@ -33,7 +32,14 @@ public class Run {
         bank.clientCame(c4);
         bank.setTime(13, 53);
         bank.clientLeft(c4);
+
+        bank.setTime(14, 52);
+        bank.clientCame(c4);
+        bank.setTime(15, 20);
+        bank.clientLeft(c4);
+
         bank.completeDay();
+
 
 
         System.out.println(bank.calculateHighestLoadingPeriods());

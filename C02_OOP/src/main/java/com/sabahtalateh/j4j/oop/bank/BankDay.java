@@ -1,7 +1,6 @@
 package com.sabahtalateh.j4j.oop.bank;
 
 import com.sabahtalateh.j4j.oop.bank.time.Hour;
-import com.sabahtalateh.j4j.oop.bank.time.HourPeriod;
 import com.sabahtalateh.j4j.oop.bank.time.Minute;
 import com.sabahtalateh.j4j.oop.bank.time.Time;
 
