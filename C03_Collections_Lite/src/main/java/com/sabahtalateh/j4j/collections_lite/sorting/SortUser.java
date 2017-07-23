@@ -32,8 +32,7 @@ public class SortUser {
     public List<User> sortByAllFields(List<User> users) {
         users.sort((o1, o2) -> {
             int nameComparing = o1.getName().compareTo(o2.getName());
-            int ageComparing = ((Integer) o1.getAge()).compareTo(o2.getAge());
-            return nameComparing == 0 ? nameComparing : ageComparing;
+            return nameComparing == 0 ? ((Integer) o1.getAge()).compareTo(o2.getAge()) : nameComparing;
         });
         return users;
     }
