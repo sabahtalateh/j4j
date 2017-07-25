@@ -2,6 +2,9 @@ package com.sabahtalateh.j4j.collections_lite.organizations;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -44,4 +47,51 @@ public class DivisionCollectionTest {
         );
     }
 
+    @Test
+    public void testAscendingSort() {
+        DivisionCollection divisionCollection = new DivisionCollection();
+        divisionCollection.add("K1\\SK1\\SSK1");
+        divisionCollection.add("K2\\SK1");
+        divisionCollection.add("K1\\SK1\\SSK2");
+        divisionCollection.add("K2");
+        divisionCollection.add("K2\\SK2");
+        divisionCollection.add("K1\\SK2\\SSK2");
+
+        List<String> sorted = new ArrayList<String>() {{
+            add("K1");
+            add("K1\\SK1");
+            add("K1\\SK1\\SSK1");
+            add("K1\\SK1\\SSK2");
+            add("K2");
+            add("K2\\SK1");
+            add("K2\\SK2");
+            add("K2\\SK2\\SSK2");
+        }};
+
+        assertThat(sorted, is(sorted));
+    }
+
+    @Test
+    public void testDescendingSort() {
+        DivisionCollection divisionCollection = new DivisionCollection();
+        divisionCollection.add("K1\\SK1\\SSK1");
+        divisionCollection.add("K2\\SK1");
+        divisionCollection.add("K1\\SK1\\SSK2");
+        divisionCollection.add("K2");
+        divisionCollection.add("K2\\SK2");
+        divisionCollection.add("K1\\SK2\\SSK2");
+
+        List<String> sorted = new ArrayList<String>() {{
+            add("K2");
+            add("K2\\SK2");
+            add("K1\\SK1");
+            add("K2\\SK2\\SSK2");
+            add("K1");
+            add("K2\\SK1");
+            add("K1\\SK1\\SSK2");
+            add("K1\\SK1\\SSK1");
+        }};
+
+        assertThat(sorted, is(sorted));
+    }
 }
