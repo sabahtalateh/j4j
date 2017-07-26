@@ -1,0 +1,7 @@
+#!/bin/bash
+
+CWD=`pwd`
+MAIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+sh $MAIN_DIR/mvn-test.sh
+
+cd $CWD
