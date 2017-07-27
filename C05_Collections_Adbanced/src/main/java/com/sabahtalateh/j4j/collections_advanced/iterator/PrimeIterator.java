@@ -3,32 +3,35 @@ package com.sabahtalateh.j4j.collections_advanced.iterator;
 import java.util.Iterator;
 
 /**
- * EvenIterator.
+ * PrimeIterator.
  */
-public class EvenIterator implements Iterator<Integer> {
+public class PrimeIterator implements Iterator<Integer> {
 
-    int[] numbers;
-    int position = 0;
+    private int[] numbers;
+
+    private int position = 0;
 
     /**
      * @param numbers numbers.
      */
-    public EvenIterator(int[] numbers) {
+    public PrimeIterator(int[] numbers) {
         this.numbers = numbers;
     }
 
     /**
-     * @return check if next exists.
+     * @return has next.
      */
     @Override
     public boolean hasNext() {
         boolean result = false;
+
         for (int i = position; i < numbers.length; i++) {
-            if (numbers[i] % 2 == 0) {
+            if (this.isPrime(numbers[i])) {
                 result = true;
                 break;
             }
         }
+
         return result;
     }
 
@@ -38,11 +41,24 @@ public class EvenIterator implements Iterator<Integer> {
     @Override
     public Integer next() {
         for (int i = position; i < numbers.length; i++) {
-            if (numbers[i] % 2 == 0) {
-                position = i;
+            if (this.isPrime(numbers[i])) {
+                this.position = i;
                 break;
             }
         }
         return numbers[position++];
+    }
+
+    /**
+     * @param n number.
+     * @return checking result.
+     */
+    private boolean isPrime(int n) {
+        for (int i = 2; i < n; i++) {
+            if (n % i == 0) {
+                return false;
+            }
+        }
+        return true;
     }
 }
