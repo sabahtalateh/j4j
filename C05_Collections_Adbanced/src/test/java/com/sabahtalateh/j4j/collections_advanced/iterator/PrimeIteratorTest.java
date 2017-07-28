@@ -3,7 +3,7 @@ package com.sabahtalateh.j4j.collections_advanced.iterator;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * PrimeIteratorTest.
@@ -23,8 +23,6 @@ public class PrimeIteratorTest {
     @Test
     public void primeNumbersReturnsCorrectly() {
         PrimeIterator iterator = new PrimeIterator(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18});
-        assertThat(iterator.hasNext(), is(true));
-        assertThat(iterator.next(), is(1));
         assertThat(iterator.hasNext(), is(true));
         assertThat(iterator.next(), is(2));
         assertThat(iterator.hasNext(), is(true));

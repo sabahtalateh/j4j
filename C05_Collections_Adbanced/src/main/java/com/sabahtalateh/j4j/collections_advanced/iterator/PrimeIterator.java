@@ -23,16 +23,7 @@ public class PrimeIterator implements Iterator<Integer> {
      */
     @Override
     public boolean hasNext() {
-        boolean result = false;
-
-        for (int i = position; i < numbers.length; i++) {
-            if (this.isPrime(numbers[i])) {
-                result = true;
-                break;
-            }
-        }
-
-        return result;
+        return nextPrimePosition() != -1;
     }
 
     /**
@@ -40,12 +31,7 @@ public class PrimeIterator implements Iterator<Integer> {
      */
     @Override
     public Integer next() {
-        for (int i = position; i < numbers.length; i++) {
-            if (this.isPrime(numbers[i])) {
-                this.position = i;
-                break;
-            }
-        }
+        this.position = nextPrimePosition();
         return numbers[position++];
     }
 
@@ -54,11 +40,26 @@ public class PrimeIterator implements Iterator<Integer> {
      * @return checking result.
      */
     private boolean isPrime(int n) {
-        for (int i = 2; i < n; i++) {
+        boolean isPrime = n != 1;
+        for (int i = 2; i < n / 2 + 1; i++) {
             if (n % i == 0) {
-                return false;
+                isPrime = false;
             }
         }
-        return true;
+        return isPrime;
+    }
+
+    /**
+     * @return next prime position or -1 if no primes.
+     */
+    private int nextPrimePosition() {
+        int primePosition = -1;
+        for (int i = this.position; i < numbers.length; i++) {
+            if (this.isPrime(numbers[i])) {
+                primePosition = i;
+                break;
+            }
+        }
+        return primePosition;
     }
 }
