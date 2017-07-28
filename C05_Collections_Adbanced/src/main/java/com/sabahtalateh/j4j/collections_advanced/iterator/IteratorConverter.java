@@ -22,16 +22,13 @@ class CustomIterator implements Iterator<Integer> {
 
     private final Iterator<Iterator<Integer>> iterator;
 
-    private Iterator<Integer> current;
+    private Iterator<Integer> inner;
 
     /**
      * @param iterator iterator.
      */
     CustomIterator(Iterator<Iterator<Integer>> iterator) {
         this.iterator = iterator;
-        if (iterator.hasNext()) {
-            current = iterator.next();
-        }
     }
 
     /**
@@ -39,12 +36,20 @@ class CustomIterator implements Iterator<Integer> {
      */
     @Override
     public boolean hasNext() {
-        if (this.current.hasNext()) {
+        if (this.inner == null && !this.iterator.hasNext()) {
+            return false;
+        }
+
+        if (this.inner == null && this.iterator.hasNext()) {
+            inner = iterator.next();
+        }
+
+        if (this.inner.hasNext()) {
             return true;
         }
 
-        while (iterator.hasNext()) {
-            this.current = iterator.next();
+        if (iterator.hasNext()) {
+            this.inner = iterator.next();
             return this.hasNext();
         }
 
@@ -56,12 +61,20 @@ class CustomIterator implements Iterator<Integer> {
      */
     @Override
     public Integer next() {
-        if (this.current.hasNext()) {
-            return this.current.next();
+        if (this.inner == null && !this.iterator.hasNext()) {
+            return null;
         }
 
-        while (this.iterator.hasNext()) {
-            this.current = this.iterator.next();
+        if (this.inner == null && this.iterator.hasNext()) {
+            inner = iterator.next();
+        }
+
+        if (this.inner.hasNext()) {
+            return this.inner.next();
+        }
+
+        if (this.iterator.hasNext()) {
+            this.inner = this.iterator.next();
             return this.next();
         }
 

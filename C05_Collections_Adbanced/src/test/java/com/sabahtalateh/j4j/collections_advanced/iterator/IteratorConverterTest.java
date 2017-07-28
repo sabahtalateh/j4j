@@ -6,17 +6,28 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * IteratorConverterTest.
  */
 public class IteratorConverterTest {
+
+    @Test
+    public void whenIteratorDoesNptContainInnerIteratorsThenNoNext() throws Exception {
+        IteratorConverter iteratorConverter = new IteratorConverter();
+
+        ArrayList<Iterator<Integer>> iterators = new ArrayList<>();
+        Iterator<Integer> convertedIterator = iteratorConverter.convert(iterators.iterator());
+
+        assertThat(convertedIterator.hasNext(), is(false));
+    }
+
     @Test
     public void onEmptyIteratorHasNextWillReturnFalse() {
-        ArrayList<Integer> integers1 = new ArrayList<Integer>();
+        ArrayList<Integer> integers1 = new ArrayList<>();
 
-        ArrayList<Integer> integers2 = new ArrayList<Integer>();
+        ArrayList<Integer> integers2 = new ArrayList<>();
 
         ArrayList<Iterator<Integer>> iterators = new ArrayList<>();
         iterators.add(integers1.iterator());
@@ -30,7 +41,7 @@ public class IteratorConverterTest {
 
     @Test
     public void ifSomeOfInnerIteratorsAreEmptyEverythingWorksAsExpected() {
-        ArrayList<Integer> integers1 = new ArrayList<Integer>();
+        ArrayList<Integer> integers1 = new ArrayList<>();
 
         ArrayList<Integer> integers2 = new ArrayList<Integer>() {{
             add(1);
