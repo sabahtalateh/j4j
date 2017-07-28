@@ -17,6 +17,18 @@ public class Iterator2DArrayTest {
     }
 
     @Test
+    public void ifInnerArraysAreEmptyThenIteratorReturnCorrectValues() {
+        Iterator2DArray iterator = new Iterator2DArray(new int[][]{{}, {1}, {}, {4, 8}});
+        assertThat(iterator.hasNext(), is(true));
+        assertThat(iterator.next(), is(1));
+        assertThat(iterator.hasNext(), is(true));
+        assertThat(iterator.next(), is(4));
+        assertThat(iterator.hasNext(), is(true));
+        assertThat(iterator.next(), is(8));
+        assertThat(iterator.hasNext(), is(false));
+    }
+
+    @Test
     public void nextElementCanBeRetrievedWhenIteratorContainsIt() throws Exception {
         Iterator2DArray iterator = new Iterator2DArray(new int[][]{{1}, {2, 3}, {4, 8}});
         assertThat(iterator.hasNext(), is(true));
