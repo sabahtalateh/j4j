@@ -7,15 +7,15 @@ import java.util.Iterator;
  */
 public class LinkedContainer<E> implements Container<E>, Iterator<E> {
 
-    private Node<E> head = null;
+    Node<E> head = null;
 
-    private Node<E> tail = null;
+    Node<E> tail = null;
 
-    private int size = 0;
+    int size = 0;
 
-    private int iteratorIndex = 0;
+    int iteratorIndex = 0;
 
-    private Node<E> iteratorCurrent = null;
+    Node<E> iteratorCurrent = null;
 
     /**
      * @param e entity.
@@ -85,7 +85,7 @@ public class LinkedContainer<E> implements Container<E>, Iterator<E> {
     /**
      * @param <E> Type.
      */
-    private static class Node<E> {
+    static class Node<E> {
         E value;
         Node<E> next;
         Node<E> prev;
