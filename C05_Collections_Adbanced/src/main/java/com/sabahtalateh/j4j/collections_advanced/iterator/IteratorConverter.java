@@ -36,24 +36,8 @@ class CustomIterator implements Iterator<Integer> {
      */
     @Override
     public boolean hasNext() {
-        if (this.inner == null && !this.iterator.hasNext()) {
-            return false;
-        }
-
-        if (this.inner == null && this.iterator.hasNext()) {
-            inner = iterator.next();
-        }
-
-        if (this.inner.hasNext()) {
-            return true;
-        }
-
-        if (iterator.hasNext()) {
-            this.inner = iterator.next();
-            return this.hasNext();
-        }
-
-        return false;
+        this.setInnerIteratorToFirstNotEmptyValue();
+        return this.inner != null && this.inner.hasNext();
     }
 
     /**
@@ -61,24 +45,25 @@ class CustomIterator implements Iterator<Integer> {
      */
     @Override
     public Integer next() {
-        if (this.inner == null && !this.iterator.hasNext()) {
-            return null;
-        }
+        this.setInnerIteratorToFirstNotEmptyValue();
+        return this.inner == null ? null : this.inner.next();
+    }
 
+    /**
+     * Set inner iterator to first not empty value.
+     */
+    private void setInnerIteratorToFirstNotEmptyValue() {
         if (this.inner == null && this.iterator.hasNext()) {
-            inner = iterator.next();
-        }
-
-        if (this.inner.hasNext()) {
-            return this.inner.next();
-        }
-
-        if (this.iterator.hasNext()) {
             this.inner = this.iterator.next();
-            return this.next();
         }
 
-        return null;
+        if (this.inner != null) {
+            while (!this.inner.hasNext() && this.iterator.hasNext()) {
+                if (this.iterator.hasNext()) {
+                    this.inner = this.iterator.next();
+                }
+            }
+        }
     }
 }
 
