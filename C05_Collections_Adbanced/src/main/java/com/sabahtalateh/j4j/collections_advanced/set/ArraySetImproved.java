@@ -41,39 +41,52 @@ public class ArraySetImproved<E> implements Set<E> {
      */
     @Override
     public void add(E e) {
-        if (this.lastIndex < MAX_CAPACITY && !this.contains(e)) {
+        int hash = e.hashCode();
+        int insertPosition = this.getInsertPosition(hash);
+        if (insertPosition != -1 && this.lastIndex < MAX_CAPACITY) {
             if (!this.enoughCapacity()) {
                 this.increaseCapacity();
             }
-            int hash = e.hashCode();
-            this.elements[this.getIndexToInsert(hash)] = new Entry<>(hash, e);
+            if (insertPosition < this.lastIndex) {
+                // Shift elements right from insert position.
+                Entry<E> tmp = (Entry<E>) this.elements[insertPosition];
+                for (int i = this.lastIndex + 1; i > insertPosition; i--) {
+                    this.elements[i + 1] = this.elements[i];
+                }
+                this.elements[insertPosition + 1] = tmp;
+            }
+            this.elements[insertPosition] = new Entry<>(hash, e);
             this.lastIndex++;
         }
     }
 
-    private int getIndexToInsert(int hash) {
-        if (this.lastIndex < 6) {
-            return lastIndex;
-        }
-
-        int result = 0;
-        int rangeStart = 0;
-        int rangeEnd = this.lastIndex;
-        int middle = 0;
-
+    /**
+     * @param hash hashcode.
+     * @return not negative index or -1 if such element is already exists in storage.
+     */
+    private int getInsertPosition(int hash) {
+        int middleIndex = 0;
         if (lastIndex != 0) {
-            while (rangeEnd - rangeStart != 1) {
-                middle = (rangeStart + rangeEnd) / 2;
-                if (hash > ((Entry<E>) this.elements[middle]).hash) {
-                    rangeStart = middle;
+            int rangeStart = 0;
+            int rangeEnd = this.lastIndex;
+
+            while (rangeEnd > rangeStart) {
+                middleIndex = (rangeStart + rangeEnd) / 2;
+                int middleHash = ((Entry<E>) this.elements[middleIndex]).hash;
+                if (middleHash == hash) {
+                    middleIndex = -1;
+                    break;
                 } else {
-                    rangeEnd = middle;
+                    if (middleHash < hash) {
+                        rangeStart = ++middleIndex;
+                    } else {
+                        rangeEnd = middleIndex;
+                    }
                 }
             }
-
         }
 
-        return middle;
+        return middleIndex;
     }
 
     /**
@@ -94,22 +107,6 @@ public class ArraySetImproved<E> implements Set<E> {
                 return ((Entry<E>) ArraySetImproved.this.elements[this.index++]).element;
             }
         };
-    }
-
-    /**
-     * @param e element.
-     * @return true if contains, false if not.
-     */
-    private boolean contains(E e) {
-        boolean result = false;
-        for (int i = 0; i < this.lastIndex; i++) {
-            if (this.elements[i].equals(e)) {
-                result = true;
-                break;
-            }
-        }
-
-        return result;
     }
 
     /**
@@ -136,11 +133,18 @@ public class ArraySetImproved<E> implements Set<E> {
         this.elements = Arrays.copyOf(this.elements, this.capacity);
     }
 
+    /**
+     * @param <E> Type.
+     */
     private static class Entry<E> {
         int hash;
         E element;
 
-        public Entry(int hash, E element) {
+        /**
+         * @param hash    hash.
+         * @param element element.
+         */
+        Entry(int hash, E element) {
             this.hash = hash;
             this.element = element;
         }
