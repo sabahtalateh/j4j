@@ -64,20 +64,32 @@ public class IteratorConverterTest {
 
     @Test
     public void iteratorValueCanBeCorrectlyRetrieved() {
+        ArrayList<Integer> integers0 = new ArrayList<Integer>();
+
         ArrayList<Integer> integers1 = new ArrayList<Integer>() {{
             add(1);
             add(2);
             add(3);
         }};
 
-        ArrayList<Integer> integers2 = new ArrayList<Integer>() {{
+        ArrayList<Integer> integers2 = new ArrayList<>();
+        ArrayList<Integer> integers3 = new ArrayList<>();
+
+        ArrayList<Integer> integers4 = new ArrayList<Integer>() {{
             add(4);
             add(5);
         }};
 
+        ArrayList<Integer> integers5 = new ArrayList<>();
+
         ArrayList<Iterator<Integer>> iterators = new ArrayList<>();
+        iterators.add(integers0.iterator());
+        iterators.add(integers0.iterator());
         iterators.add(integers1.iterator());
         iterators.add(integers2.iterator());
+        iterators.add(integers3.iterator());
+        iterators.add(integers4.iterator());
+        iterators.add(integers5.iterator());
 
         IteratorConverter iteratorConverter = new IteratorConverter();
         Iterator<Integer> convertedIterator = iteratorConverter.convert(iterators.iterator());
