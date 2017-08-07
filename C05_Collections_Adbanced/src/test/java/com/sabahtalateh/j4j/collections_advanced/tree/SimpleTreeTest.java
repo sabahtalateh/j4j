@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * SimpleTreeTest.
@@ -57,5 +57,26 @@ public class SimpleTreeTest {
             add(10);
         }};
         assertThat(list, is(expected));
+    }
+
+    @Test
+    public void checkIfBinary() throws Exception {
+        SimpleTree<Integer> tree = new SimpleTree<>(5);
+        assertThat(tree.isBinary(), is(true));
+
+        tree.add(5, 3);
+        tree.add(5, 7);
+        assertThat(tree.isBinary(), is(true));
+
+        tree.add(3, 1);
+        tree.add(3, 2);
+        assertThat(tree.isBinary(), is(true));
+
+        tree.add(7, 6);
+        tree.add(7, 8);
+        assertThat(tree.isBinary(), is(true));
+
+        tree.add(5, 10);
+        assertThat(tree.isBinary(), is(false));
     }
 }

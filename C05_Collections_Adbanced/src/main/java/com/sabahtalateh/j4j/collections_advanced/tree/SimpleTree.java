@@ -45,6 +45,13 @@ public class SimpleTree<E extends Comparable<E>> implements SimpleTreeInterface<
     }
 
     /**
+     * @return check if node is binary tree.
+     */
+    public boolean isBinary() {
+        return this.root.isBinary();
+    }
+
+    /**
      * Node.
      */
     private class Node {
@@ -56,6 +63,13 @@ public class SimpleTree<E extends Comparable<E>> implements SimpleTreeInterface<
          */
         Node(E value) {
             this.value = value;
+        }
+
+        /**
+         * @param child child to append.
+         */
+        void appendChild(Node child) {
+            this.children.add(child);
         }
 
         /**
@@ -82,10 +96,20 @@ public class SimpleTree<E extends Comparable<E>> implements SimpleTreeInterface<
         }
 
         /**
-         * @param child child to append.
+         * @return check if node is binary tree.
          */
-        void appendChild(Node child) {
-            this.children.add(child);
+        boolean isBinary() {
+            if (this.children.size() > 2) {
+                return false;
+            }
+
+            for (Node child : this.children) {
+                if (!child.isBinary()) {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 
