@@ -3,7 +3,7 @@ package com.sabahtalateh.j4j.collections_advanced.bookstore;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * OrderSetTest.

@@ -11,7 +11,7 @@
         <module>C01_Basics</module>
         <module>C02_OOP</module>
         <module>C03_Collections_Lite</module>
-        <module>C05_Collections_Adbanced</module>
+        <module>C05_Collections_Advanced</module>
     </modules>
     <packaging>pom</packaging>
 
