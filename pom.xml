@@ -12,6 +12,7 @@
         <module>C02_OOP</module>
         <module>C03_Collections_Lite</module>
         <module>C05_Collections_Advanced</module>
+        <module>C06_Multithreading</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>C05_Collections_Advanced</artifactId>
+    <artifactId>C06_Multithreading</artifactId>
 
 
 </project>
