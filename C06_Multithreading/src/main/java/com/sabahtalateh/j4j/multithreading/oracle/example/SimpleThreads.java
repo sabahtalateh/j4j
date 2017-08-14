@@ -12,7 +12,7 @@ public class SimpleThreads {
      * @throws InterruptedException exception
      */
     public static void main(String[] args) throws InterruptedException {
-        long patience = 1000 * 60 * 60;
+        long patience = 1000;
 
         System.out.println(Arrays.toString(args));
 

@@ -11,7 +11,7 @@ public class TextAnalysisRun {
      */
     public static void main(String[] args) throws InterruptedException {
         TextAnalysis textAnalysis = new TextAnalysis();
-        AnalysisResult report = textAnalysis.analyze(args[0]);
+        AnalysisResult report = textAnalysis.analyze(args[0], System.out);
         System.out.println(report);
     }
 }
