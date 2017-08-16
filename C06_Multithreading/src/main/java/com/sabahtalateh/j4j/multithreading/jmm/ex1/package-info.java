@@ -1,4 +1,4 @@
 /**
  * @author Alex Kravtsov(mailto:sabahtalateh@gmail.com).
  */
-package com.sabahtalateh.j4j.multithreading.oracle.example;
+package com.sabahtalateh.j4j.multithreading.jmm.ex1;

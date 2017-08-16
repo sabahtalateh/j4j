@@ -1,4 +1,4 @@
-package com.sabahtalateh.j4j.multithreading.oracle.example;
+package com.sabahtalateh.j4j.multithreading.threads.oracle.example;
 
 import java.util.Arrays;
 
