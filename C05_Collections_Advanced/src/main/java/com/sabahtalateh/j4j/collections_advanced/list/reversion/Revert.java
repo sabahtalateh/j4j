@@ -3,13 +3,13 @@ package com.sabahtalateh.j4j.collections_advanced.list.reversion;
 /**
  * Revert.
  */
-public class Revert {
+class Revert {
     /**
-     * @param n1 node.
+     * @param n1  node.
      * @param <T> Node type param.
      * @return reverted.
      */
-    public <T> Node<T> revert(Node<T> n1) {
+    <T> Node<T> revert(Node<T> n1) {
         if (n1.hasNext()) {
             Node<T> n2 = n1.getNext();
             if (!n2.hasNext()) {
@@ -33,5 +33,26 @@ public class Revert {
             }
         }
         return n1;
+    }
+
+    /**
+     * @param node node.
+     * @param <T>  Node type param.
+     * @return reverted.
+     */
+    <T> Node<T> revert2(Node<T> node) {
+        Node<T> prev = null;
+        Node<T> curr = node;
+        Node<T> next = null;
+
+        while (curr != null) {
+            next = curr.getNext();
+            curr.appendNext(prev);
+            prev = curr;
+            curr = next;
+        }
+
+        node = prev;
+        return node;
     }
 }
