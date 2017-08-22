@@ -44,6 +44,9 @@ public class OrderBookReader {
      */
     private static class OrderBookHandler extends DefaultHandler {
 
+        private static final String ADD_ORDER_MARKER = "AddOrder";
+        private static final String DELETE_ORDER_MARKER = "AddOrder";
+
         Map<Integer, OrderBookEntry> orders;
 
         /**
@@ -62,7 +65,7 @@ public class OrderBookReader {
          */
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-            if (qName.equals("AddOrder")) {
+            if (qName.equals(ADD_ORDER_MARKER)) {
                 this.orders.put(
                         Integer.valueOf(attributes.getValue("orderId")),
                         new OrderBookEntry(
@@ -72,7 +75,7 @@ public class OrderBookReader {
                                 Integer.valueOf(attributes.getValue("volume"))
                         )
                 );
-            } else if (qName.equals("DeleteOrder")) {
+            } else if (qName.equals(DELETE_ORDER_MARKER)) {
                 this.orders.remove(Integer.valueOf(attributes.getValue("orderId")));
             }
         }
