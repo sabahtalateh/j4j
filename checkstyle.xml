@@ -70,6 +70,10 @@
             <property name="allowedAnnotations" value="Test"/>
             <property name="allowedAnnotations" value="Before"/>
             <property name="allowedAnnotations" value="After"/>
+            <property name="allowedAnnotations" value="JCStressTest"/>
+            <property name="allowedAnnotations" value="State"/>
+            <property name="allowedAnnotations" value="Outcome"/>
+            <property name="allowedAnnotations" value="Actor"/>
         </module>
         <module name="JavadocType"/>
         <!--<module name="JavadocVariable"/>-->
