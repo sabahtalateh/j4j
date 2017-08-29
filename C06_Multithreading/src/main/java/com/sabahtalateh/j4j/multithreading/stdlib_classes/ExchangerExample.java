@@ -4,6 +4,11 @@ import java.util.concurrent.Exchanger;
 
 /**
  * ExchangerExample.
+ *
+ * Truck 1 is moving from A to D and has parcels A->D and A->C
+ * Truck 2 is moving from B to C and has parcels B->D and B->C
+ * They meet in E and exchange parcels A->C and B->D, so Truck 1 can
+ * deliver A->D nad B->D to D, and Truck 2 can deliver A->C and B->C.
  */
 public class ExchangerExample {
     private static final Exchanger<String> EXCHANGER = new Exchanger<>();
