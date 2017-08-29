@@ -8,6 +8,6 @@ RUN mkdir /mvn \
     && echo 'export PATH=/mvn/apache-maven-3.5.0/bin:$PATH' >> ~/.bashrc \
     && echo "alias mci='mvn clean install'" >> ~/.bashrc
 
-VOLUME .:/j4j
-
-
+VOLUME /jcstress
+WORKDIR /jcstress
+ENTRYPOINT tail -f /dev/null
