@@ -9,9 +9,13 @@ import java.util.BitSet;
 /**
  * BitSetTest.
  */
+@Description("Test bit set.")
 @JCStressTest
 @State
-//@Outcome(id = "true, true", expect = Expect.ACCEPTABLE)
+@Outcome(id = "true, true", expect = Expect.ACCEPTABLE)
+@Outcome(id = "false, true", expect = Expect.ACCEPTABLE_INTERESTING)
+@Outcome(id = "true, false", expect = Expect.ACCEPTABLE_INTERESTING)
+
 public class BitSetTest {
 
     private BitSet bs = new BitSet();

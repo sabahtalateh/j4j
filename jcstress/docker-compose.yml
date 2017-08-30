@@ -2,7 +2,7 @@ version: '3.2'
 
 services:
   openjdk:
-    image: "sabahtalateh/openjdk8:1.4"
+    image: "sabahtalateh/openjdk8:1.5"
     volumes:
       - .:/jcstress
       - ~/.m2:/root/.m2
