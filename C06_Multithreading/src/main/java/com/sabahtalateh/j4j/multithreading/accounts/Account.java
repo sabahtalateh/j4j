@@ -11,7 +11,7 @@ public class Account {
     /**
      * @param id id.
      */
-    Account(String id) {
+    public Account(String id) {
         this(id, null, 0);
     }
 
@@ -19,7 +19,7 @@ public class Account {
      * @param id        id.
      * @param ownerName owner name.
      */
-    Account(String id, String ownerName) {
+    public Account(String id, String ownerName) {
         this(id, ownerName, 0);
     }
 
@@ -28,7 +28,7 @@ public class Account {
      * @param ownerName owner name.
      * @param amount    amount.
      */
-    Account(String id, String ownerName, long amount) {
+    public Account(String id, String ownerName, long amount) {
         this.id = id;
         this.ownerName = ownerName;
         this.amount = amount;

@@ -57,10 +57,16 @@ public class AccountStorage {
         boolean transfered = false;
         from = accounts.get(from.getId());
         to = accounts.get(to.getId());
-        if (from != null && to != null && from.getAmount() >= amount) {
-            from.subtractAmount(amount);
-            to.addAmount(amount);
-            transfered = true;
+        if (from != null && to != null) {
+            synchronized (from) {
+                synchronized (to) {
+                    if (from.getAmount() >= amount) {
+                        from.subtractAmount(amount);
+                        to.addAmount(amount);
+                        transfered = true;
+                    }
+                }
+            }
         }
 
         return transfered;

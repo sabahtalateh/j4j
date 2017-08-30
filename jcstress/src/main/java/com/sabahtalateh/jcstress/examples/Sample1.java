@@ -13,15 +13,15 @@ import org.openjdk.jcstress.infra.results.II_Result;
 @Outcome(id = "2, 1", expect = Expect.ACCEPTABLE, desc = "First actor greater then second.")
 public class Sample1 {
 
-    volatile int v = 0;
+    private volatile int v = 0;
 
     @Actor
-    public void actor1(II_Result result) {
+    void actor1(II_Result result) {
         result.r1 = ++v;
     }
 
     @Actor
-    public void actor2(II_Result result) {
+    void actor2(II_Result result) {
         result.r2 = ++v;
     }
 }
