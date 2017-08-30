@@ -1,4 +1,4 @@
 /**
  * @author Alex Kravtsov(mailto:sabahtalateh@gmail.com).
  */
-package com.sabahtalateh;
+package com.sabahtalateh.jcstress.examples;

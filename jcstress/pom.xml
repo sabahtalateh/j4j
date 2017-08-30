@@ -50,11 +50,11 @@ THE POSSIBILITY OF SUCH DAMAGE.
             <artifactId>jcstress-core</artifactId>
             <version>${jcstress.version}</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.openjdk.jcstress</groupId>-->
-            <!--<artifactId>jcstress-samples</artifactId>-->
-            <!--<version>0.3</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.openjdk.jcstress</groupId>
+            <artifactId>jcstress-samples</artifactId>
+            <version>0.1.2</version>
+        </dependency>
     </dependencies>
 
     <properties>

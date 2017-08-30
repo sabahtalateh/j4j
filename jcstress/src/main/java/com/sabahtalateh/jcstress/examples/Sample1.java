@@ -1,4 +1,4 @@
-package com.sabahtalateh;
+package com.sabahtalateh.jcstress.examples;
 
 import org.openjdk.jcstress.annotations.*;
 import org.openjdk.jcstress.infra.results.II_Result;

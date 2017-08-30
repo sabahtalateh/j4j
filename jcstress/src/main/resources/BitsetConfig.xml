@@ -1,0 +1,33 @@
+<test name="com.sabahtalateh.jcstress.examples.BitSetTest">
+    <contributed-by>Oleg Shelajev</contributed-by>
+    <description>
+        Tests if BitSet works well without synchronization.
+    </description>
+    <case>
+        <match>[true, true]</match>
+        <expect>ACCEPTABLE</expect>
+        <description>
+            Seeing all updates intact.
+        </description>
+    </case>
+    <case>
+        <match>[true, false]</match>
+        <expect>ACCEPTABLE_INTERESTING</expect>
+        <description>
+            T2 overwrites T1 result.
+        </description>
+    </case>
+    <case>
+        <match>[false, true]</match>
+        <expect>ACCEPTABLE_INTERESTING</expect>
+        <description>
+            T1 overwrites T2 result.
+        </description>
+    </case>
+    <unmatched>
+        <expect>FORBIDDEN</expect>
+        <description>
+            All other cases are unexpected.
+        </description>
+    </unmatched>
+</test>
