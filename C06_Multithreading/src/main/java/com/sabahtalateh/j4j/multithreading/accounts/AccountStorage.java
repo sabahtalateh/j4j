@@ -1,6 +1,8 @@
 package com.sabahtalateh.j4j.multithreading.accounts;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * AccountStorage.
@@ -48,40 +50,43 @@ public class AccountStorage {
     }
 
     /**
-     * @param from   from.
-     * @param to     to.
+     * @param fromId from.
+     * @param toId   to.
      * @param amount amount.
      * @return is transfered.
      */
-    public boolean transfer(Account from, Account to, long amount) {
+    public boolean transfer(String fromId, String toId, long amount) {
         boolean transfered = false;
-        from = accounts.get(from.getId());
-        to = accounts.get(to.getId());
+        Account from = accounts.get(fromId);
+        Account to = accounts.get(toId);
 
-
-        if (from != null && to != null) {
-
-            Account first;
-            Account second;
-
-            if (to.hashCode() < from.hashCode()) {
-                first = from;
-                second = to;
-            } else {
-                first = to;
-                second = from;
-            }
-
-            synchronized (first) {
-                synchronized (second) {
-                    if (from.getAmount() >= amount) {
-                        from.subtractAmount(amount);
-                        to.addAmount(amount);
-                        transfered = true;
-                    }
-                }
-            }
+        // Try lock should stand before the amount checking.
+        if (from != null && to != null && this.tryLockAccounts(from, to) && from.getAmount() >= amount) {
+            from.subtractAmount(amount);
+            to.addAmount(amount);
+            transfered = true;
+            this.unlockAccounts(from, to);
         }
+
+//        if (from != null && to != null && from.getAmount() >= amount) {
+//            Account first;
+//            Account second;
+//            if (from.hashCode() < to.hashCode()) {
+//                first = from;
+//                second = to;
+//            } else {
+//                first = to;
+//                second = from;
+//            }
+//
+//            synchronized (first) {
+//                synchronized (second) {
+//                    from.subtractAmount(amount);
+//                    to.addAmount(amount);
+//                    transfered = true;
+//                }
+//            }
+//        }
 
         return transfered;
     }
@@ -93,5 +98,40 @@ public class AccountStorage {
     public Optional<Account> findByAccountId(String id) {
         Account account = accounts.get(id);
         return account == null ? Optional.empty() : Optional.of(account);
+    }
+
+    /**
+     * True if both lock was acquired.
+     *
+     * @param from from.
+     * @param to   to.
+     * @return result.
+     */
+    private boolean tryLockAccounts(Account from, Account to) {
+        boolean fromLock = false;
+        boolean toLock = false;
+
+        try {
+            fromLock = from.lock.tryLock();
+            toLock = to.lock.tryLock();
+        } finally {
+            if (!fromLock && toLock) {
+                to.lock.unlock();
+            }
+
+            if (!toLock && fromLock) {
+                from.lock.unlock();
+            }
+        }
+        return fromLock && toLock;
+    }
+
+    /**
+     * @param from from.
+     * @param to   to.
+     */
+    private void unlockAccounts(Account from, Account to) {
+        from.lock.unlock();
+        to.lock.unlock();
     }
 }

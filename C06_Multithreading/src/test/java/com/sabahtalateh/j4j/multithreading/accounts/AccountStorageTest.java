@@ -66,8 +66,8 @@ public class AccountStorageTest {
         assertThat(ivan.getAmount(), is(100L));
         assertThat(maxim.getAmount(), is(200L));
 
-        assertThat(storage.transfer(ivan, maxim, 500), is(false));
-        assertThat(storage.transfer(ivan, maxim, 50), is(true));
+        assertThat(storage.transfer("1", "2", 500), is(false));
+        assertThat(storage.transfer("1", "2", 50), is(true));
 
         assertThat(ivan.getAmount(), is(50L));
         assertThat(maxim.getAmount(), is(250L));
