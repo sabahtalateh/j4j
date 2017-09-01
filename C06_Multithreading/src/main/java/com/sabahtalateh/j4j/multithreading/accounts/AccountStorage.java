@@ -62,9 +62,21 @@ public class AccountStorage {
 
         // Try lock should stand before the amount checking.
         if (from != null && to != null && this.tryLockAccounts(from, to) && from.getAmount() >= amount) {
+
+            long checkBefore = from.getAmount() - to.getAmount();
+
             from.subtractAmount(amount);
             to.addAmount(amount);
             transfered = true;
+
+            long checkAfter = from.getAmount() - to.getAmount() + (2 * amount);
+
+            if (checkBefore != checkAfter) {
+                from.addAmount(amount);
+                to.subtractAmount(amount);
+                transfered = false;
+            }
+
             this.unlockAccounts(from, to);
         }
 
@@ -131,7 +143,7 @@ public class AccountStorage {
      * @param to   to.
      */
     private void unlockAccounts(Account from, Account to) {
-        from.lock.unlock();
         to.lock.unlock();
+        from.lock.unlock();
     }
 }
