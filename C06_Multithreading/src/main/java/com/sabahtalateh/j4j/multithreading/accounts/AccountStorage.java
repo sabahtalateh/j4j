@@ -57,48 +57,19 @@ public class AccountStorage {
      */
     public boolean transfer(String fromId, String toId, long amount) {
         boolean transfered = false;
+
         Account from = accounts.get(fromId);
         Account to = accounts.get(toId);
 
-        // Try lock should stand before the amount checking.
         if (from != null && to != null && this.tryLockAccounts(from, to) && from.getAmount() >= amount) {
-
-            long checkBefore = from.getAmount() - to.getAmount();
-
-            from.subtractAmount(amount);
-            to.addAmount(amount);
-            transfered = true;
-
-            long checkAfter = from.getAmount() - to.getAmount() + (2 * amount);
-
-            if (checkBefore != checkAfter) {
-                from.addAmount(amount);
-                to.subtractAmount(amount);
-                transfered = false;
+            try {
+                from.subtractAmount(amount);
+                to.addAmount(amount);
+                transfered = true;
+            } finally {
+                this.unlockAccounts(from, to);
             }
-
-            this.unlockAccounts(from, to);
         }
-
-//        if (from != null && to != null && from.getAmount() >= amount) {
-//            Account first;
-//            Account second;
-//            if (from.hashCode() < to.hashCode()) {
-//                first = from;
-//                second = to;
-//            } else {
-//                first = to;
-//                second = from;
-//            }
-//
-//            synchronized (first) {
-//                synchronized (second) {
-//                    from.subtractAmount(amount);
-//                    to.addAmount(amount);
-//                    transfered = true;
-//                }
-//            }
-//        }
 
         return transfered;
     }
@@ -114,6 +85,12 @@ public class AccountStorage {
 
     /**
      * True if both lock was acquired.
+     * <p>
+     * * Arguments order when method calls should be the same as in {@see unlockAccounts}.
+     * Ex.
+     * tryLockAccounts(acc1, acc2);
+     * ...
+     * unlockAccounts(acc1, acc2);
      *
      * @param from from.
      * @param to   to.
@@ -139,11 +116,17 @@ public class AccountStorage {
     }
 
     /**
+     * Arguments order when method calls should be the same as in {@see tryLockAccounts}.
+     * Ex.
+     * tryLockAccounts(acc1, acc2);
+     * ...
+     * unlockAccounts(acc1, acc2);
+     *
      * @param from from.
      * @param to   to.
      */
     private void unlockAccounts(Account from, Account to) {
-        to.lock.unlock();
         from.lock.unlock();
+        to.lock.unlock();
     }
 }

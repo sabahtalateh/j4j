@@ -27,14 +27,17 @@ public class AccountStorageMoneyTransferTest {
     @Actor
     void actor1(LLL_Result result) {
         storage.transfer("1", "2", 10);
-        result.r1 = acc1.getAmount();
-        result.r2 = acc2.getAmount();
     }
 
     @Actor
     void actor2(LLL_Result result) {
         storage.transfer("1", "3", 10);
+    }
+
+    @Arbiter
+    void arbiter(LLL_Result result) {
         result.r1 = acc1.getAmount();
+        result.r2 = acc2.getAmount();
         result.r3 = acc3.getAmount();
     }
 }
