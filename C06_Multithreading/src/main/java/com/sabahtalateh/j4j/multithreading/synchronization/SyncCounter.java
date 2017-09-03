@@ -7,7 +7,7 @@ import net.jcip.annotations.ThreadSafe;
  * SyncCounter.
  */
 @ThreadSafe
-class SyncCounter implements Counter {
+public class SyncCounter implements Counter {
     @GuardedBy("this")
     private long value = 0;
 
