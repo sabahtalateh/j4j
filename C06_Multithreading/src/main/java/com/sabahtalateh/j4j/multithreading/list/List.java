@@ -6,8 +6,16 @@ package com.sabahtalateh.j4j.multithreading.list;
 public interface List<E> {
     /**
      * @param el element.
+     * @return result.
      */
-    void add(E el);
+    boolean add(E el);
+
+    /**
+     * @param index index.
+     * @param el    element.
+     * @return result.
+     */
+    boolean add(int index, E el);
 
     /**
      * @param index index.
@@ -24,4 +32,15 @@ public interface List<E> {
      * @return size.
      */
     int size();
+
+    /**
+     * @param el element.
+     * @return result.
+     */
+    boolean contains(E el);
+
+    /**
+     * @param index index.
+     */
+    void remove(int index);
 }

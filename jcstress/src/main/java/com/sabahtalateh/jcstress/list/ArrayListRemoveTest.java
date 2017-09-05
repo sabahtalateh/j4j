@@ -2,29 +2,31 @@ package com.sabahtalateh.jcstress.list;
 
 import com.sabahtalateh.j4j.multithreading.list.ArrayList;
 import com.sabahtalateh.j4j.multithreading.list.List;
-import org.openjdk.jcstress.annotations.Actor;
-import org.openjdk.jcstress.annotations.Arbiter;
-import org.openjdk.jcstress.annotations.JCStressTest;
-import org.openjdk.jcstress.annotations.State;
+import org.openjdk.jcstress.annotations.*;
 import org.openjdk.jcstress.infra.results.L_Result;
 
 /**
- * ArrayListTest.
+ * ArrayListAddTest.
  */
 @JCStressTest
 @State
-public class ArrayListTest {
+@Outcome(id = "Third", expect = Expect.ACCEPTABLE, desc = "First two elements were removed.")
+public class ArrayListRemoveTest {
 
-    List<Long> list = new ArrayList<>();
+    private List<String> list = new ArrayList<String>() {{
+        add("First");
+        add("Second");
+        add("Third");
+    }};
 
     @Actor
     void actor1() {
-        list.add(0x8000000000000000L);
+        list.remove(0);
     }
 
     @Actor
     void actor2() {
-        list.add(0x7fffffffffffffffL);
+        list.remove(0);
     }
 
     @Arbiter

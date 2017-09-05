@@ -4,11 +4,14 @@ import net.jcip.annotations.ThreadSafe;
 
 import java.util.Arrays;
 
+import static java.lang.Math.max;
+
 /**
  * @param <E> Element type.
  */
 @ThreadSafe
 public class ArrayList<E> implements List<E> {
+
     private static final int INITIAL_CAPACITY = 2;
     private static final int MAX_CAPACITY = Integer.MAX_VALUE;
     private int capacity = INITIAL_CAPACITY;
@@ -18,18 +21,47 @@ public class ArrayList<E> implements List<E> {
 
     /**
      * @param el element.
+     * @return result.
      */
     @Override
-    public void add(E el) {
-        if (size == capacity) {
-            if (capacity >= MAX_CAPACITY / 2) {
-                capacity = MAX_CAPACITY;
-            } else {
-                capacity = capacity * 2;
-            }
-            elements = Arrays.copyOf(elements, capacity);
+    public synchronized boolean add(E el) {
+        boolean added = false;
+
+        if (size != MAX_CAPACITY) {
+            increaseCapacityIfRequired();
+            elements[size++] = el;
+            added = true;
         }
-        elements[size++] = el;
+
+        return added;
+    }
+
+    /**
+     * @param index index.
+     * @param el    element.
+     * @return result.
+     */
+    @Override
+    public synchronized boolean add(int index, E el) {
+        boolean added = false;
+
+        if (size != MAX_CAPACITY) {
+            if (index > capacity) {
+                increaseCapacityTo(index + 1);
+            }
+
+            if (elements[index] != null) {
+                increaseCapacityIfRequired();
+                for (int i = size - 1; i >= index; i--) {
+                    elements[i + 1] = elements[i];
+                }
+            }
+            elements[index] = el;
+            size = max(size, index + 1);
+            added = true;
+        }
+
+        return added;
     }
 
     /**
@@ -61,6 +93,34 @@ public class ArrayList<E> implements List<E> {
     }
 
     /**
+     * @param el element.
+     * @return result.
+     */
+    @Override
+    public boolean contains(E el) {
+        boolean contains = false;
+
+        for (int i = 0; i < size; i++) {
+            if (elements[i].equals(el)) {
+                contains = true;
+                break;
+            }
+        }
+
+        return contains;
+    }
+
+    /**
+     * @param index index.
+     */
+    @Override
+    public synchronized void remove(int index) {
+        if (index <= size - 1) {
+            System.arraycopy(elements, index + 1, elements, index, (size--) - index);
+        }
+    }
+
+    /**
      * @return string.
      */
     @Override
@@ -74,5 +134,27 @@ public class ArrayList<E> implements List<E> {
         sb.append(elements[i]);
         sb.append("]");
         return sb.toString();
+    }
+
+    /**
+     * Increase capacity if required.
+     */
+    private void increaseCapacityIfRequired() {
+        if (size == capacity) {
+            if (capacity >= MAX_CAPACITY / 2) {
+                capacity = MAX_CAPACITY;
+            } else {
+                capacity = capacity * 2;
+            }
+            elements = Arrays.copyOf(elements, capacity);
+        }
+    }
+
+    /**
+     * @param newCapacity new capacity.
+     */
+    private void increaseCapacityTo(int newCapacity) {
+        capacity = newCapacity;
+        elements = Arrays.copyOf(elements, capacity);
     }
 }
