@@ -1,4 +1,4 @@
-package com.sabahtalateh.jcstress.list;
+package com.sabahtalateh.jcstress.list.array;
 
 import com.sabahtalateh.j4j.multithreading.list.ArrayList;
 import com.sabahtalateh.j4j.multithreading.list.List;

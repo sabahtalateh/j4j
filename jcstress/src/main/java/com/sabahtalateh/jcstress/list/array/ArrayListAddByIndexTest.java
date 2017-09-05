@@ -1,19 +1,17 @@
-package com.sabahtalateh.jcstress.list;
+package com.sabahtalateh.jcstress.list.array;
 
 import com.sabahtalateh.j4j.multithreading.list.ArrayList;
 import com.sabahtalateh.j4j.multithreading.list.List;
 import org.openjdk.jcstress.annotations.*;
-import org.openjdk.jcstress.infra.results.I_Result;
-import org.openjdk.jcstress.infra.results.J_Result;
-import org.openjdk.jcstress.infra.results.L_Result;
+import org.openjdk.jcstress.infra.results.LL_Result;
 
 /**
  * ArrayListAddTest.
  */
 @JCStressTest
 @State
-@Outcome(id = "Hello", expect = Expect.ACCEPTABLE)
-@Outcome(id = "World", expect = Expect.ACCEPTABLE)
+@Outcome(id = "Hello, World", expect = Expect.ACCEPTABLE, desc = "First thread pasted its value before the second.")
+@Outcome(id = "World, Hello", expect = Expect.ACCEPTABLE, desc = "Second thread pasted its value before the first.")
 public class ArrayListAddByIndexTest {
 
     private List<String> list = new ArrayList<>();
@@ -29,8 +27,9 @@ public class ArrayListAddByIndexTest {
     }
 
     @Arbiter
-    void arbiter(L_Result result) {
+    void arbiter(LL_Result result) {
         result.r1 = list.get(1);
+        result.r2 = list.get(2);
     }
 
 }

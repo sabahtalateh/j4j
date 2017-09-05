@@ -57,7 +57,7 @@ public class ArrayList<E> implements List<E> {
                 }
             }
             elements[index] = el;
-            size = max(size, index + 1);
+            size = max(size + 1, index + 1);
             added = true;
         }
 
@@ -69,7 +69,7 @@ public class ArrayList<E> implements List<E> {
      * @return element.
      */
     @Override
-    public E get(int index) {
+    public synchronized E get(int index) {
         if (index > size - 1) {
             throw new IndexOutOfBoundsException();
         }
@@ -80,7 +80,7 @@ public class ArrayList<E> implements List<E> {
      * @return is empty.
      */
     @Override
-    public boolean isEmpty() {
+    public synchronized boolean isEmpty() {
         return size == 0;
     }
 
@@ -97,11 +97,11 @@ public class ArrayList<E> implements List<E> {
      * @return result.
      */
     @Override
-    public boolean contains(E el) {
+    public synchronized boolean contains(E el) {
         boolean contains = false;
 
         for (int i = 0; i < size; i++) {
-            if (elements[i].equals(el)) {
+            if (elements[i] != null && elements[i].equals(el)) {
                 contains = true;
                 break;
             }
@@ -139,7 +139,7 @@ public class ArrayList<E> implements List<E> {
     /**
      * Increase capacity if required.
      */
-    private void increaseCapacityIfRequired() {
+    private synchronized void increaseCapacityIfRequired() {
         if (size == capacity) {
             if (capacity >= MAX_CAPACITY / 2) {
                 capacity = MAX_CAPACITY;
@@ -153,7 +153,7 @@ public class ArrayList<E> implements List<E> {
     /**
      * @param newCapacity new capacity.
      */
-    private void increaseCapacityTo(int newCapacity) {
+    private synchronized void increaseCapacityTo(int newCapacity) {
         capacity = newCapacity;
         elements = Arrays.copyOf(elements, capacity);
     }

@@ -34,10 +34,11 @@ public class ArrayListTest {
     }
 
     @Test
-    public void name() throws Exception {
+    public void whenAddElementsToSameIndexThenItBothCanBeRetrieved() throws Exception {
         List<String> list = new ArrayList<>();
         list.add(1, "KK");
         list.add(1, "KK");
-        System.out.println(list);
+        assertThat(list.get(1), is("KK"));
+        assertThat(list.get(2), is("KK"));
     }
 }

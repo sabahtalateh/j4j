@@ -1,10 +1,9 @@
-package com.sabahtalateh.jcstress.list;
+package com.sabahtalateh.jcstress.list.array;
 
 import com.sabahtalateh.j4j.multithreading.list.ArrayList;
 import com.sabahtalateh.j4j.multithreading.list.List;
 import org.openjdk.jcstress.annotations.*;
 import org.openjdk.jcstress.infra.results.I_Result;
-import org.openjdk.jcstress.infra.results.L_Result;
 
 /**
  * ArrayListAddTest.
