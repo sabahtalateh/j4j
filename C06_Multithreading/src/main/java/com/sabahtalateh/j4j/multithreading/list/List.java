@@ -41,6 +41,7 @@ public interface List<E> {
 
     /**
      * @param index index.
+     * @return removed.
      */
-    void remove(int index);
+    boolean remove(int index);
 }

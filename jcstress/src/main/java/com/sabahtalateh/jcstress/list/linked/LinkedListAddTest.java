@@ -1,6 +1,7 @@
-package com.sabahtalateh.jcstress.list.array;
+package com.sabahtalateh.jcstress.list.linked;
 
 import com.sabahtalateh.j4j.multithreading.list.ArrayList;
+import com.sabahtalateh.j4j.multithreading.list.LinkedList;
 import com.sabahtalateh.j4j.multithreading.list.List;
 import org.openjdk.jcstress.annotations.*;
 import org.openjdk.jcstress.infra.results.I_Result;
@@ -11,9 +12,9 @@ import org.openjdk.jcstress.infra.results.I_Result;
 @JCStressTest
 @State
 @Outcome(id = "2", expect = Expect.ACCEPTABLE, desc = "All the elements were added to array.")
-public class ArrayListAddTest {
+public class LinkedListAddTest {
 
-    private List<String> list = new ArrayList<>();
+    private List<String> list = new LinkedList<>();
 
     @Actor
     void actor1() {

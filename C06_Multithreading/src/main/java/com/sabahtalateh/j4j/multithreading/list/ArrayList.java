@@ -112,12 +112,18 @@ public class ArrayList<E> implements List<E> {
 
     /**
      * @param index index.
+     * @return removed.
      */
     @Override
-    public synchronized void remove(int index) {
+    public synchronized boolean remove(int index) {
+        boolean removed = false;
+
         if (index <= size - 1) {
             System.arraycopy(elements, index + 1, elements, index, (size--) - index);
+            removed = true;
         }
+
+        return removed;
     }
 
     /**

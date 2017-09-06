@@ -1,6 +1,7 @@
-package com.sabahtalateh.jcstress.list.array;
+package com.sabahtalateh.jcstress.list.linked;
 
 import com.sabahtalateh.j4j.multithreading.list.ArrayList;
+import com.sabahtalateh.j4j.multithreading.list.LinkedList;
 import com.sabahtalateh.j4j.multithreading.list.List;
 import org.openjdk.jcstress.annotations.*;
 import org.openjdk.jcstress.infra.results.ZZ_Result;
@@ -19,7 +20,7 @@ import org.openjdk.jcstress.infra.results.ZZ_Result;
         "If you will remove synchronization from ArrayList this result will appear.")
 public class AddAndContainsTest {
 
-    private List<String> list = new ArrayList<>();
+    private List<String> list = new LinkedList<>();
 
     @Actor
     void actor1() {

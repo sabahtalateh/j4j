@@ -6,7 +6,7 @@ import org.openjdk.jcstress.annotations.*;
 import org.openjdk.jcstress.infra.results.ZI_Result;
 
 /**
- * ArrayListAddTest.
+ * LinkedListAddTest.
  */
 @JCStressTest
 @State

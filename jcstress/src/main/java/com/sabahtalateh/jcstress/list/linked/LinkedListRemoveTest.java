@@ -1,6 +1,7 @@
-package com.sabahtalateh.jcstress.list.array;
+package com.sabahtalateh.jcstress.list.linked;
 
 import com.sabahtalateh.j4j.multithreading.list.ArrayList;
+import com.sabahtalateh.j4j.multithreading.list.LinkedList;
 import com.sabahtalateh.j4j.multithreading.list.List;
 import org.openjdk.jcstress.annotations.*;
 import org.openjdk.jcstress.infra.results.L_Result;
@@ -11,9 +12,9 @@ import org.openjdk.jcstress.infra.results.L_Result;
 @JCStressTest
 @State
 @Outcome(id = "Third", expect = Expect.ACCEPTABLE, desc = "First two elements were removed.")
-public class ArrayListRemoveTest {
+public class LinkedListRemoveTest {
 
-    private List<String> list = new ArrayList<String>() {{
+    private List<String> list = new LinkedList<String>() {{
         add("First");
         add("Second");
         add("Third");
