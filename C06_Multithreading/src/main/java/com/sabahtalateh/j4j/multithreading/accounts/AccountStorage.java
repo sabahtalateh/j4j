@@ -14,7 +14,7 @@ public class AccountStorage {
      * @param account account.
      * @return is added.
      */
-    public boolean add(Account account) {
+    public synchronized boolean add(Account account) {
         boolean added = false;
         if (!accounts.containsKey(account.getId())) {
             accounts.put(account.getId(), account);
@@ -27,7 +27,7 @@ public class AccountStorage {
      * @param account account.
      * @return is updated.
      */
-    public boolean update(Account account) {
+    public synchronized boolean update(Account account) {
         boolean updated = false;
         if (accounts.containsKey(account.getId())) {
             accounts.put(account.getId(), account);
@@ -40,7 +40,7 @@ public class AccountStorage {
      * @param account account.
      * @return is deleted.
      */
-    public boolean delete(Account account) {
+    public synchronized boolean delete(Account account) {
         boolean deleted = false;
         if (accounts.containsKey(account.getId())) {
             accounts.remove(account.getId());
@@ -78,7 +78,7 @@ public class AccountStorage {
      * @param id id.
      * @return optional account.
      */
-    public Optional<Account> findByAccountId(String id) {
+    public synchronized Optional<Account> findByAccountId(String id) {
         Account account = accounts.get(id);
         return account == null ? Optional.empty() : Optional.of(account);
     }
