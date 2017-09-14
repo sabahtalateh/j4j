@@ -27,8 +27,8 @@ public class ParallelAdding {
 
         @Arbiter
         void arbiter(StorageState state, ZZ_Result result) {
-            result.r1 = state.storage.findByAccountId("1").isPresent();
-            result.r2 = state.storage.findByAccountId("2").isPresent();
+            result.r1 = state.storage.get("1") != null;
+            result.r2 = state.storage.get("2") != null;
         }
     }
 }

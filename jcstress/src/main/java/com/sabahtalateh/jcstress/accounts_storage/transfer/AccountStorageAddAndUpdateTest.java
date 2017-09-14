@@ -30,13 +30,13 @@ public class AccountStorageAddAndUpdateTest {
 
     @Arbiter
     void arbiter(ZLJ_Result result) {
-        Optional<Account> account = storage.findByAccountId("1");
-        result.r1 = account.isPresent();
+        Account account = storage.get("1");
+        result.r1 = account != null;
         result.r2 = "None";
         result.r3 = 0;
         if (result.r1) {
-            result.r2 = account.get().getOwnerName();
-            result.r3 = account.get().getAmount();
+            result.r2 = account.getOwnerName();
+            result.r3 = account.getAmount();
         }
     }
 }

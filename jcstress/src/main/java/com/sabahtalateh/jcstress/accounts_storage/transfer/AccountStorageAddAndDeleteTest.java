@@ -27,12 +27,11 @@ public class AccountStorageAddAndDeleteTest {
     @Actor
     void actor2() {
         storage.delete(new Account("1", "Ivan", 100));
-
     }
 
     @Actor
     void actor3(ZZ_Result result) {
-        result.r1 = storage.findByAccountId("1").isPresent();
-        result.r2 = storage.findByAccountId("1").isPresent();
+        result.r1 = storage.get("1") != null;
+        result.r2 = storage.get("1") != null;
     }
 }

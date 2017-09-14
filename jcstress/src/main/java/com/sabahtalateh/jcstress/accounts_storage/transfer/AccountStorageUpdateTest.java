@@ -33,7 +33,7 @@ public class AccountStorageUpdateTest {
 
     @Arbiter
     void arbiter(LJ_Result result) {
-        result.r1 = storage.findByAccountId("1").get().getOwnerName();
-        result.r2 = storage.findByAccountId("1").get().getAmount();
+        result.r1 = storage.get("1").getOwnerName();
+        result.r2 = storage.get("1").getAmount();
     }
 }

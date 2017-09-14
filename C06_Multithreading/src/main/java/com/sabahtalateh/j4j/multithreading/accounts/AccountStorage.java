@@ -1,20 +1,22 @@
 package com.sabahtalateh.j4j.multithreading.accounts;
 
-import java.util.HashMap;
+import net.jcip.annotations.ThreadSafe;
+
 import java.util.Map;
-import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * AccountStorage.
  */
+@ThreadSafe
 public class AccountStorage {
-    private final Map<String, Account> accounts = new HashMap<>();
+    private final Map<String, Account> accounts = new ConcurrentHashMap<>();
 
     /**
      * @param account account.
      * @return is added.
      */
-    public synchronized boolean add(Account account) {
+    public boolean add(Account account) {
         boolean added = false;
         if (!accounts.containsKey(account.getId())) {
             accounts.put(account.getId(), account);
@@ -24,14 +26,22 @@ public class AccountStorage {
     }
 
     /**
-     * @param account account.
+     * @param newAccount new account.
      * @return is updated.
      */
-    public synchronized boolean update(Account account) {
+    public boolean update(Account newAccount) {
         boolean updated = false;
-        if (accounts.containsKey(account.getId())) {
-            accounts.put(account.getId(), account);
-            updated = true;
+        Account oldAccount = accounts.get(newAccount.getId());
+        if (oldAccount != null) {
+            try {
+                newAccount.lock.lock();
+                oldAccount.lock.lock();
+                accounts.put(newAccount.getId(), newAccount);
+                updated = true;
+            } finally {
+                oldAccount.lock.unlock();
+                newAccount.lock.unlock();
+            }
         }
         return updated;
     }
@@ -40,11 +50,18 @@ public class AccountStorage {
      * @param account account.
      * @return is deleted.
      */
-    public synchronized boolean delete(Account account) {
+    public boolean delete(Account account) {
         boolean deleted = false;
-        if (accounts.containsKey(account.getId())) {
-            accounts.remove(account.getId());
-            deleted = true;
+        Account deletingAccount = accounts.get(account.getId());
+        if (deletingAccount != null) {
+            try {
+                deletingAccount.lock.lock();
+                accounts.remove(account.getId());
+                deleted = true;
+            } finally {
+                deletingAccount.lock.unlock();
+            }
+
         }
         return deleted;
     }
@@ -78,9 +95,8 @@ public class AccountStorage {
      * @param id id.
      * @return optional account.
      */
-    public synchronized Optional<Account> findByAccountId(String id) {
-        Account account = accounts.get(id);
-        return account == null ? Optional.empty() : Optional.of(account);
+    public Account get(String id) {
+        return accounts.get(id);
     }
 
     /**

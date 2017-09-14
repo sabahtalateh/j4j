@@ -2,9 +2,8 @@ package com.sabahtalateh.j4j.multithreading.accounts;
 
 import org.junit.Test;
 
-import java.util.Optional;
-
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -18,8 +17,8 @@ public class AccountStorageTest {
         Account maxim = new Account("2", "Maxim", 200);
         assertThat(storage.add(ivan), is(true));
         assertThat(storage.add(maxim), is(true));
-        assertThat(storage.findByAccountId("1"), is(Optional.of(ivan)));
-        assertThat(storage.findByAccountId("2"), is(Optional.of(maxim)));
+        assertThat(storage.get("1"), is(ivan));
+        assertThat(storage.get("2"), is(maxim));
     }
 
     @Test
@@ -27,7 +26,7 @@ public class AccountStorageTest {
         AccountStorage storage = new AccountStorage();
         Account ivan = new Account("1", "Ivan", 100);
         assertThat(storage.add(ivan), is(true));
-        assertThat(storage.findByAccountId("2"), is(Optional.empty()));
+        assertThat(storage.get("2"), nullValue());
     }
 
     @Test
@@ -35,10 +34,10 @@ public class AccountStorageTest {
         AccountStorage storage = new AccountStorage();
         Account ivan = new Account("1", "Ivan", 100);
         assertThat(storage.add(ivan), is(true));
-        assertThat(storage.findByAccountId("1"), is(Optional.of(ivan)));
+        assertThat(storage.get("1"), is(ivan));
 
         assertThat(storage.delete(ivan), is(true));
-        assertThat(storage.findByAccountId("1"), is(Optional.empty()));
+        assertThat(storage.get("1"), nullValue());
     }
 
     @Test
@@ -49,7 +48,7 @@ public class AccountStorageTest {
 
         Account newIvan = new Account("1", "Ivan Ivanovich", 500);
         assertThat(storage.update(newIvan), is(true));
-        assertThat(storage.findByAccountId("1"), is(Optional.of(newIvan)));
+        assertThat(storage.get("1"), is(newIvan));
 
         Account notInStorage = new Account("100", "Petr", 400);
         assertThat(storage.update(notInStorage), is(false));
