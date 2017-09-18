@@ -1,7 +1,5 @@
 package com.sabahtalateh.j4j.multithreading.accounts;
 
-import java.util.concurrent.locks.ReentrantLock;
-
 /**
  * Account.
  */
@@ -9,7 +7,6 @@ public class Account {
     private final String id;
     private final String ownerName;
     private long amount = 0;
-    public ReentrantLock lock = new ReentrantLock();
 
     /**
      * @param id id.
