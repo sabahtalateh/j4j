@@ -7,7 +7,7 @@ import java.util.UUID;
  */
 public abstract class Work {
 
-    private String workId = UUID.randomUUID().toString().substring(0, 4);
+    private final String workId = UUID.randomUUID().toString().substring(0, 4);
 
     /**
      * @return work id.
