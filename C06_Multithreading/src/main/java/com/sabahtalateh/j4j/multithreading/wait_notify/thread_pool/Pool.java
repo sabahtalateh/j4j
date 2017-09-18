@@ -45,7 +45,6 @@ public class Pool extends Thread {
         while (true) {
             int readyWorkerIndex = getReadyWorkerIndex();
             if (readyWorkerIndex != -1 && works.size() > 0) {
-                System.out.println(readyWorkerIndex);
                 try {
                     workers[readyWorkerIndex].setWork(works.removeFirst());
                 } catch (InterruptedException e) {
