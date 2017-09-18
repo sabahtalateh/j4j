@@ -11,8 +11,7 @@ public class Pool extends Thread {
 
     private static final long DIAGNOSTIC_MESSAGE_TIME = 4000;
 
-    //    private static final int POOL_SIZE = Runtime.getRuntime().availableProcessors();
-    private static final int POOL_SIZE = 4;
+    private static final int POOL_SIZE = Runtime.getRuntime().availableProcessors();
 
     private final Worker[] workers = new Worker[POOL_SIZE];
     private final LinkedList<Work> works = new LinkedList<>();
