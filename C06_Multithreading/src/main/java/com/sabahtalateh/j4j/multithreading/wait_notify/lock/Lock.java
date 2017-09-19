@@ -1,5 +1,7 @@
 package com.sabahtalateh.j4j.multithreading.wait_notify.lock;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -15,6 +17,12 @@ public class Lock {
 
     private volatile int lockersCount = 0;
 
+    private long lastMessage = System.currentTimeMillis();
+
+    private final long messagesInterval = 5000L;
+
+    private final List<Thread> waiters = new ArrayList<>();
+
     /**
      * Lock.
      */
@@ -27,6 +35,9 @@ public class Lock {
      */
     public Lock(boolean diagnosticMode) {
         this.diagnosticMode = diagnosticMode;
+        if (this.diagnosticMode) {
+            runDiagnostic();
+        }
     }
 
     /**
@@ -36,14 +47,21 @@ public class Lock {
         if (lockersCount == 0) {
             locker = Thread.currentThread();
             lockersCount++;
+            locker = Thread.currentThread();
+            waiters.remove(locker);
             if (diagnosticMode) {
-                locker = Thread.currentThread();
                 System.out.printf("[%s] acquired (%d locks) by [%s].%n", lockId, lockersCount, locker.getName());
             }
         } else if (lockersCount > 0 && locker == Thread.currentThread()) {
             lockersCount++;
+            locker = Thread.currentThread();
+            waiters.remove(locker);
+            if (diagnosticMode) {
+                System.out.printf("[%s] acquired (%d locks) by [%s].%n", lockId, lockersCount, locker.getName());
+            }
         } else {
             try {
+                waiters.add(Thread.currentThread());
                 this.wait();
                 this.lock();
             } catch (InterruptedException e) {
@@ -62,10 +80,34 @@ public class Lock {
 
         lockersCount--;
         if (diagnosticMode) {
-            System.out.printf("[%s] released (%d remains) by [%s]", lockId, lockersCount, Thread.currentThread());
+            System.out.printf("[%s] released (%d remains) by [%s].%n", lockId, lockersCount, Thread.currentThread().getName());
         }
         if (lockersCount == 0) {
+            locker = null;
             this.notify();
         }
+    }
+
+    /**
+     * Diagnostic.
+     */
+    private void runDiagnostic() {
+        new Thread(() -> {
+            while (true) {
+                if (System.currentTimeMillis() - lastMessage > messagesInterval) {
+                    System.out.println("======");
+                    String waitersString = waiters.stream()
+                            .map(Thread::getName)
+                            .reduce((w1, w2) -> String.format("%s, %s", w1, w2))
+                            .orElse("NO WAITERS.");
+                    System.out.printf("Lock       [%s]%n", lockId);
+                    System.out.printf("Locked by: [%s]%n", locker != null ? locker.getName() : "Nobody");
+                    System.out.printf("Waiters:   [%s]%n", waitersString);
+
+                    System.out.println("-");
+                    lastMessage = System.currentTimeMillis();
+                }
+            }
+        }).start();
     }
 }

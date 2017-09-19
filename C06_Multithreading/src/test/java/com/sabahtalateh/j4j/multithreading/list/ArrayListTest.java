@@ -1,6 +1,5 @@
 package com.sabahtalateh.j4j.multithreading.list;
 
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -50,11 +49,11 @@ public class ArrayListTest {
         list.add("1");
         list.add("2");
         list.add("3");
-        assertThat(list.size(), Matchers.is(3));
-        assertThat(list.remove(100), Matchers.is(false));
-        assertThat(list.remove(1), Matchers.is(true));
-        assertThat(list.get(1), Matchers.is("3"));
-        assertThat(list.get(0), Matchers.is("1"));
-        assertThat(list.size(), Matchers.is(2));
+        assertThat(list.size(), is(3));
+        assertThat(list.remove(100), is(false));
+        assertThat(list.remove(1), is(true));
+        assertThat(list.get(1), is("3"));
+        assertThat(list.get(0), is("1"));
+        assertThat(list.size(), is(2));
     }
 }
