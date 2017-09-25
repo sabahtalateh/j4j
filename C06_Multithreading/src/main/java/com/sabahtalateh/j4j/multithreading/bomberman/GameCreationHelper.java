@@ -1,6 +1,7 @@
 package com.sabahtalateh.j4j.multithreading.bomberman;
 
 import com.sabahtalateh.j4j.multithreading.bomberman.command_reader.AbstractReader;
+import com.sabahtalateh.j4j.multithreading.bomberman.command_reader.KeyboardReader;
 import com.sabahtalateh.j4j.multithreading.bomberman.command_reader.RandomReader;
 import com.sabahtalateh.j4j.multithreading.bomberman.player.Coordinate;
 import com.sabahtalateh.j4j.multithreading.bomberman.player.Direction;
@@ -14,9 +15,9 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 /**
- * EnvironmentCreationHelper.
+ * GameCreationHelper.
  */
-public class EnvironmentCreationHelper {
+public class GameCreationHelper {
     /**
      * @param playersCount       players count.
      * @param enemiesCount       enemies count.
@@ -24,10 +25,10 @@ public class EnvironmentCreationHelper {
      * @param walls              walls map.
      * @param withKeyboardPlayer will be the keyboard player.
      */
-    public static void createEnvironment(
+    public static void createAndStart(
+            int boardSize,
             int playersCount,
             int enemiesCount,
-            int boardSize,
             boolean[][] walls,
             boolean withKeyboardPlayer
     ) {
@@ -56,7 +57,8 @@ public class EnvironmentCreationHelper {
                     freeCells.remove(random.nextInt(freeCells.size())),
                     commandQueue,
                     Character.forDigit(i, 10),
-                    PlayerType.PLAYER
+                    PlayerType.PLAYER,
+                    false
             );
             RandomReader commandReader = new RandomReader(commandQueue, player, board);
             commandReaders.add(commandReader);
@@ -70,7 +72,8 @@ public class EnvironmentCreationHelper {
                     freeCells.remove(random.nextInt(freeCells.size())),
                     commandQueue,
                     Character.forDigit(i, 10),
-                    PlayerType.ENEMY
+                    PlayerType.ENEMY,
+                    false
             );
             RandomReader commandReader = new RandomReader(commandQueue, player, board);
             commandReaders.add(commandReader);
@@ -84,9 +87,10 @@ public class EnvironmentCreationHelper {
                     freeCells.remove(random.nextInt(freeCells.size())),
                     commandQueue,
                     'P',
-                    PlayerType.ENEMY
+                    PlayerType.PLAYER,
+                    true
             );
-            RandomReader commandReader = new RandomReader(commandQueue, player, board);
+            KeyboardReader commandReader = new KeyboardReader(commandQueue, player, board);
             commandReaders.add(commandReader);
             players.add(player);
         }

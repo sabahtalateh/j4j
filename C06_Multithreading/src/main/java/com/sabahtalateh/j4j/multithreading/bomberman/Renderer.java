@@ -68,20 +68,12 @@ public class Renderer {
                                 .filter(p -> p.getCoordinate().getX() == xx && p.getCoordinate().getY() == yy)
                                 .collect(Collectors.toList());
 
-                        playersOnCell.sort((p1, p2) -> {
-                            if (p1.isEnemy() && !p2.isEnemy()) {
-                                return 1;
-                            } else {
-                                return 0;
-                            }
-                        });
-
                         Optional<Player> player = players.stream()
                                 .filter(p -> p.getCoordinate().getX() == xx && p.getCoordinate().getY() == yy)
                                 .sorted((o1, o2) -> {
-                                    if (o1.isEnemy() && !o2.isEnemy()) {
+                                    if (o1.isAlive() && !o2.isAlive()) {
                                         return -1;
-                                    } else if (o2.isEnemy() && !o1.isEnemy()) {
+                                    } else if (o2.isAlive() && !o1.isAlive()) {
                                         return 1;
                                     } else {
                                         return 0;
@@ -91,7 +83,11 @@ public class Renderer {
                         if (player.isPresent()) {
                             if (!player.get().isEnemy()) {
                                 if (player.get().isAlive()) {
-                                    System.out.printf(" \uD83E\uDD16 ");
+                                    if (player.get().isPlayable()) {
+                                        System.out.printf(" \uD83D\uDC73\uD83C\uDFFE ");
+                                    } else {
+                                        System.out.printf(" \uD83E\uDD16 ");
+                                    }
                                 } else {
                                     System.out.printf(" \uD83D\uDC80 ");
                                 }

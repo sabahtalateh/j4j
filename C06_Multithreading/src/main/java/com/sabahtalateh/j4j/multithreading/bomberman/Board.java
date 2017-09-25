@@ -100,19 +100,6 @@ public class Board {
 
     /**
      * @param coordinate coordinate.
-     * @return is player on coordinate.
-     */
-    public boolean isPlayerOnCoordinate(Coordinate coordinate) {
-        return players.stream()
-                .anyMatch(p -> !p.isEnemy()
-                        && p.getCoordinate().getX() == coordinate.getX()
-                        && p.getCoordinate().getY() == coordinate.getY()
-                );
-
-    }
-
-    /**
-     * @param coordinate coordinate.
      * @return player.
      */
     public Player getPlayerOnCoordinate(Coordinate coordinate) {

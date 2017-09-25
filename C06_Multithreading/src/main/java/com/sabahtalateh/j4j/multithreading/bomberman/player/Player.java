@@ -23,25 +23,30 @@ public class Player implements Runnable {
 
     private boolean alive = true;
 
+    private final boolean playable;
+
     /**
      * @param board        board.
      * @param coordinate   coordinate.
      * @param commandQueue command queue.
      * @param name         name.
      * @param playerType   player type.
+     * @param playable     playable.
      */
     public Player(
             Board board,
             Coordinate coordinate,
             BlockingQueue<Direction> commandQueue,
             Character name,
-            PlayerType playerType
+            PlayerType playerType,
+            boolean playable
     ) {
         this.board = board;
         this.coordinate = coordinate;
         this.commandQueue = commandQueue;
         this.name = name;
         this.playerType = playerType;
+        this.playable = playable;
     }
 
     /**
@@ -85,6 +90,13 @@ public class Player implements Runnable {
      */
     public boolean isAlive() {
         return alive;
+    }
+
+    /**
+     * @return is playable.
+     */
+    public boolean isPlayable() {
+        return playable;
     }
 
     /**
