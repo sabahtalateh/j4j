@@ -1,4 +1,4 @@
-package com.sabahtalateh.j4j.multithreading.bomberman;
+package com.sabahtalateh.j4j.multithreading.bomberman.player;
 
 /**
  * CanNotCreatePlayerException.

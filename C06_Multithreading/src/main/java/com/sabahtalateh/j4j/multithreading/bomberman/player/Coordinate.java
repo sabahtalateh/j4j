@@ -1,4 +1,4 @@
-package com.sabahtalateh.j4j.multithreading.bomberman.Player;
+package com.sabahtalateh.j4j.multithreading.bomberman.player;
 
 /**
  * Coordinate.
