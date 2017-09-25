@@ -4,7 +4,6 @@ import com.sabahtalateh.j4j.multithreading.bomberman.player.Player;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Renderer.
@@ -64,10 +63,6 @@ public class Renderer {
                         int xx = x;
                         int yy = y;
 
-                        List<Player> playersOnCell = players.stream()
-                                .filter(p -> p.getCoordinate().getX() == xx && p.getCoordinate().getY() == yy)
-                                .collect(Collectors.toList());
-
                         Optional<Player> player = players.stream()
                                 .filter(p -> p.getCoordinate().getX() == xx && p.getCoordinate().getY() == yy)
                                 .sorted((o1, o2) -> {
@@ -80,6 +75,7 @@ public class Renderer {
                                     }
                                 })
                                 .findFirst();
+
                         if (player.isPresent()) {
                             if (!player.get().isEnemy()) {
                                 if (player.get().isAlive()) {
