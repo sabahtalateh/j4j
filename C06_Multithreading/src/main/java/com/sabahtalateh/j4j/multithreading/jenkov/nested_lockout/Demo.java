@@ -32,5 +32,16 @@ public class Demo {
             lock.unlock();
         }).start();
 
+        new Thread(() -> {
+            try {
+                lock.lock();
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.printf("Unlock");
+            lock.unlock();
+        }).start();
+
     }
 }
