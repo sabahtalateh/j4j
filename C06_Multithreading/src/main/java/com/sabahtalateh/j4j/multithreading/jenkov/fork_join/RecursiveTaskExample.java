@@ -2,11 +2,9 @@ package com.sabahtalateh.j4j.multithreading.jenkov.fork_join;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
-import java.util.concurrent.RecursiveAction;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.RecursiveTask;
 
 /**
  * RecursiveTaskExample.
@@ -14,71 +12,74 @@ import java.util.concurrent.TimeUnit;
 public class RecursiveTaskExample {
     /**
      * @param args args.
-     * @throws InterruptedException exception.
      */
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
+
+        List<Integer> integers = new ArrayList<>();
+
+        for (int i = 0; i < 20000; i++) {
+            integers.add(1);
+        }
+
         ForkJoinPool forkJoinPool = new ForkJoinPool(4);
 
-        MyRecursiveAction myRecursiveAction = new MyRecursiveAction(128);
+        MyRecursiveTask task = new MyRecursiveTask(integers);
 
-        forkJoinPool.execute(myRecursiveAction);
-        forkJoinPool.awaitTermination(10, TimeUnit.SECONDS);
+        System.out.println(forkJoinPool.invoke(task));
+
     }
 
     /**
-     * MyRecursiveAction.
+     * MyRecursiveTask.
      */
-    private static class MyRecursiveAction extends RecursiveAction {
+    private static class MyRecursiveTask extends RecursiveTask<Long> {
 
-        private final long workLoad;
-
-        private final String taskId = UUID.randomUUID().toString().substring(0, 4);
+        private final List<Integer> integers;
 
         /**
-         * @param workLoad work load.
+         * @param integers integers.
          */
-        MyRecursiveAction(long workLoad) {
-            this.workLoad = workLoad;
+        MyRecursiveTask(List<Integer> integers) {
+            this.integers = integers;
         }
 
         /**
-         * Compute.
+         * @return sum.
          */
         @Override
-        protected void compute() {
-            if (workLoad > 8) {
-                System.out.printf("[%s] [%s] Splitting workload [%s].%n", Thread.currentThread().getName(), taskId, workLoad);
+        protected Long compute() {
+            if (integers.size() > 256) {
+                System.out.printf("Splitting [%s] into tasks.%n", integers.size());
 
-                List<MyRecursiveAction> subtasks = new ArrayList<MyRecursiveAction>() {{
-                    addAll(createSubtasks());
-                }};
+                List<MyRecursiveTask> subtasks = createSubtasks();
 
                 subtasks.forEach(ForkJoinTask::fork);
-            } else {
-                System.out.printf("[%s] [%s] Doing work by myself [%s].%n", Thread.currentThread().getName(), taskId, workLoad);
-                try {
-                    Thread.sleep((int) (Math.random() * 2000));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+
+                long result = 0;
+
+                for (MyRecursiveTask task : subtasks) {
+                    result += task.join();
                 }
-                System.out.printf("[%s] [%s] Done the task.%n", Thread.currentThread().getName(), taskId);
+
+                return result;
+            } else {
+                System.out.printf("Doing [%s] by myself.%n", integers.size());
+                return integers.stream().map(Integer::longValue).reduce(0L, (a, b) -> a + b);
             }
         }
 
         /**
          * @return subtasks.
          */
-        List<MyRecursiveAction> createSubtasks() {
-            List<MyRecursiveAction> subtasks = new ArrayList<>();
+        private List<MyRecursiveTask> createSubtasks() {
+            int middle = integers.size() / 2;
+            List<Integer> integersLeft = integers.subList(0, middle);
+            List<Integer> integersRight = integers.subList(middle, integers.size());
 
-            MyRecursiveAction subtask1 = new MyRecursiveAction(workLoad / 2);
-            MyRecursiveAction subtask2 = new MyRecursiveAction(workLoad / 2);
-
-            subtasks.add(subtask1);
-            subtasks.add(subtask2);
-
-            return subtasks;
+            return new ArrayList<MyRecursiveTask>() {{
+                add(new MyRecursiveTask(integersLeft));
+                add(new MyRecursiveTask(integersRight));
+            }};
         }
-
     }
 }
