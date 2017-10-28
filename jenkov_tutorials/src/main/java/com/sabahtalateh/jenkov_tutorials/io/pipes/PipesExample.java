@@ -1,4 +1,4 @@
-package com.sabahtalateh.jenkov_tutorials.pipes;
+package com.sabahtalateh.jenkov_tutorials.io.pipes;
 
 import java.io.IOException;
 import java.io.PipedInputStream;

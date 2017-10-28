@@ -1,4 +1,4 @@
-package com.sabahtalateh.jenkov_tutorials.object_output_stream;
+package com.sabahtalateh.jenkov_tutorials.io.object_output_stream;
 
 import java.io.*;
 

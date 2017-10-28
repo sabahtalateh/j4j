@@ -1,4 +1,4 @@
-package com.sabahtalateh.jenkov_tutorials.print_stream;
+package com.sabahtalateh.jenkov_tutorials.io.print_stream;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

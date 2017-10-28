@@ -1,4 +1,4 @@
 /**
  * @author Alex Kravtsov(mailto:sabahtalateh@gmail.com).
  */
-package com.sabahtalateh.jenkov_tutorials.object_output_stream;
+package com.sabahtalateh.jenkov_tutorials.io.pipes;

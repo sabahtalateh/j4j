@@ -1,6 +1,9 @@
-package com.sabahtalateh.jenkov_tutorials.input_stream_reader;
+package com.sabahtalateh.jenkov_tutorials.io.input_stream_reader;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * InputStreamReaderExample.
