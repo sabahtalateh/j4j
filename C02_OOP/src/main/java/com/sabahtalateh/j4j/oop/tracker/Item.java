@@ -43,7 +43,7 @@ public class Item {
     private int maxComments;
 
     /**
-     * Item creation date.
+     * Item creation datetime.
      */
     private Date date;
 
@@ -110,7 +110,7 @@ public class Item {
     }
 
     /**
-     * @return date.
+     * @return datetime.
      */
     public Date getDate() {
         return date;

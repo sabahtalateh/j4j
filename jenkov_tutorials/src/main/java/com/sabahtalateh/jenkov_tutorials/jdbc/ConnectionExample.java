@@ -21,11 +21,17 @@ public class ConnectionExample {
         while (resultSet.next()) {
             String username = resultSet.getString("username");
             System.out.println(username);
-
         }
 
         resultSet.close();
         statement.close();
+
+        DatabaseMetaData metaData = connection.getMetaData();
+        System.out.println(metaData.getDatabaseProductName());
+        System.out.println(metaData.getDatabaseProductVersion());
+        System.out.println(metaData.getDatabaseMajorVersion());
+        System.out.println(metaData.getDatabaseMinorVersion());
+
         connection.close();
     }
 }

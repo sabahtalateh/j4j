@@ -11,7 +11,7 @@ public class ClientExample {
     /**
      * Run netcat in server mode to see the result.
      *
-     * while true ; do nc -l -p 4444 -e 'echo "HELLO! $(date)"' ; done
+     * while true ; do nc -l -p 4444 -e 'echo "HELLO! $(datetime)"' ; done
      *
      * To kill
      *
