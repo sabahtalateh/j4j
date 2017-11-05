@@ -1,10 +1,15 @@
-package com.sabahtalateh.jenkov_tutorials.json.jackson;
+package com.sabahtalateh.jenkov_tutorials.json;
+
+import com.google.gson.annotations.Expose;
 
 /**
  * Car.
  */
 public class Car {
+    @Expose(serialize = true, deserialize = true)
     private String brand = null;
+
+    @Expose(serialize = true, deserialize = true)
     private int doors = 0;
 
     /**

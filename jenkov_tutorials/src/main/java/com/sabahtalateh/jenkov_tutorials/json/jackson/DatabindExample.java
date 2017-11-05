@@ -2,6 +2,7 @@ package com.sabahtalateh.jenkov_tutorials.json.jackson;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sabahtalateh.jenkov_tutorials.json.Car;
 
 import java.io.IOException;
 import java.io.StringReader;
