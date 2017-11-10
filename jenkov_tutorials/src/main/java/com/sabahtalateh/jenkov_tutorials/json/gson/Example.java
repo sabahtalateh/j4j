@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.sabahtalateh.jenkov_tutorials.json.Car;
 
 /**
- * Example.
+ * BasicExample.
  */
 public class Example {
     /**

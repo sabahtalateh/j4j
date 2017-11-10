@@ -1,7 +1,7 @@
 package com.sabahtalateh.jenkov_tutorials.exceptions;
 
 /**
- * Example.
+ * BasicExample.
  */
 public class Example {
     /**
