@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2017-11-08T15:16:16</date>
+  <millis>1510143376267</millis>
+  <sequence>0</sequence>
+  <logger>com.sabahtalateh.jenkov_tutorials.logging.BasicExample$Logging</logger>
+  <level>FINE</level>
+  <class>com.sabahtalateh.jenkov_tutorials.logging.BasicExample$Logging</class>
+  <method>method</method>
+  <thread>1</thread>
+  <message>Jopa</message>
+</record>
+</log>
