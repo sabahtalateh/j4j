@@ -13,6 +13,7 @@
         <module>C06_Multithreading</module>
         <module>jcstress</module>
         <module>jenkov_tutorials</module>
+        <module>asm</module>
     </modules>
     <packaging>pom</packaging>
 

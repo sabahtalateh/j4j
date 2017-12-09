@@ -1,7 +1,11 @@
 package com.sabahtalateh.asm;
 
 /**
- * Created by ak-4xxi on 08/12/2017.
+ * SimpleMethod.
  */
-public class Simplemethod {
+public class SimpleMethod {
+    /**
+     * No Operation.
+     */
+    public static void noOp(){}
 }
