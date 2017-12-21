@@ -5,7 +5,24 @@ package com.sabahtalateh.asm;
  */
 public class SimpleMethod {
     /**
-     * No Operation.
+     * No operations.
      */
-    public static void noOp(){}
+    public static void noOp() {
+    }
+
+    /**
+     * @return int.
+     */
+    public static int returnConst() {
+        return 2;
+    }
+
+    /**
+     * @param a a.
+     * @param b b.
+     * @return a.
+     */
+    public static int returnFirst(int a, int b) {
+        return a;
+    }
 }
