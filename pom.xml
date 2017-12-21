@@ -11,6 +11,7 @@
         <module>C03_Collections_Lite</module>
         <module>C05_Collections_Advanced</module>
         <module>C06_Multithreading</module>
+        <module>C07_SQL_JDBC</module>
         <module>jcstress</module>
         <module>jenkov_tutorials</module>
         <module>asm</module>
