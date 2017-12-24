@@ -14,6 +14,6 @@ public class RunnerTest {
     public void test() throws TransformerException {
         String testDBPath = Paths.get("", "src", "test", "test_db.db").toAbsolutePath().toString();
         Path XMLDir = Paths.get("", "src", "test");
-        new Runner(testDBPath, XMLDir, 1_000_000).run();
+        new Runner(testDBPath, XMLDir, 1).run();
     }
 }
