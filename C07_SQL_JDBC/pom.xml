@@ -11,5 +11,11 @@
 
     <artifactId>C07_SQL_JDBC</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.21.0.1</version>
+        </dependency>
+    </dependencies>
 </project>
