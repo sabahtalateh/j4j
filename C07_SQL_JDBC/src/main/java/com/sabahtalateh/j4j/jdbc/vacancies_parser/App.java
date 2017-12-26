@@ -39,7 +39,7 @@ class App {
 
     private VacancyRepo vacancyRepo;
 
-    private static final LocalDateTime START_DATE = LocalDateTime.now().minusDays(100);
+    private static final LocalDateTime START_DATE = LocalDateTime.now().minusYears(1);
 
     private static Logger logger = Logger.getLogger(App.class);
 
