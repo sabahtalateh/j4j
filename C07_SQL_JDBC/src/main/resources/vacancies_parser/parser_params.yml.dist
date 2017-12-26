@@ -1,0 +1,17 @@
+# Fetch schedule.
+fetchTimeString:
+  - 00:00:00
+  - 12:00:00
+
+# Should the parser fetch vacancies on startup.
+fetchOnStart: false
+
+# DB connection params.
+connection:
+  driver: postgresql
+  host: localhost
+  dbName: db
+  dbUser: user
+  dbPass: password
+
+log4jPropsFile: /path/to/log4j/props/file

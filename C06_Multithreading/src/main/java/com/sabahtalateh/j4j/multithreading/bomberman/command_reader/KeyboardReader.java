@@ -60,7 +60,7 @@ public class KeyboardReader extends AbstractReader {
                 try {
                     stty(ttyConfig.trim());
                 } catch (Exception e) {
-                    System.err.println("Exception restoring tty config");
+                    System.err.println("Exception restoring tty configuration");
                 }
             }
         }
