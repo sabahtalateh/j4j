@@ -13,7 +13,6 @@ import java.time.LocalTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.lang.String.format;
@@ -33,6 +32,7 @@ class Parser {
 
         List<Vacancy> vacancies = new ArrayList<>();
 
+        Pattern javaPattern = Pattern.compile(".*java(?! ?script).*", Pattern.CASE_INSENSITIVE);
         out:
         for (int pageNum = 1; true; pageNum++) {
             try {
@@ -62,12 +62,9 @@ class Parser {
                     String title = innerTds.get(1).getElementsByTag("a").get(0).text();
 
                     // continue if there is some kind of javascript or java script in title
-                    Pattern javaPattern = Pattern.compile(".*java(?! ?script).*", Pattern.CASE_INSENSITIVE);
-                    Matcher matcher = javaPattern.matcher(title);
-                    if (!matcher.matches()) {
+                    if (!javaPattern.matcher(title).matches()) {
                         continue;
                     }
-
 
                     // vacancy id
                     int vacancyId = Integer.valueOf(innerTds.get(1).getElementsByTag("a").get(0)

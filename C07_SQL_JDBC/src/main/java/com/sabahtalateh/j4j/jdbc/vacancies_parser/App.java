@@ -83,7 +83,8 @@ class App {
      */
     private void loadConfig() {
         Yaml yaml = new Yaml();
-        try (InputStream in = Files.newInputStream(Paths.get("src/main/resources/vacancies_parser/parser_params.yml"))) {
+        String file = getClass().getClassLoader().getResource("vacancies_parser/parser_params.yml").getFile();
+        try (InputStream in = Files.newInputStream(Paths.get(file))) {
             this.configuration = yaml.loadAs(in, Configuration.class);
         } catch (IOException e) {
             e.printStackTrace();
