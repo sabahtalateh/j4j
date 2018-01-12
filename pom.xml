@@ -11,6 +11,7 @@
         <module>C03_Collections_Lite</module>
         <module>C05_Collections_Advanced</module>
         <module>C06_Multithreading</module>
+        <module>C07_SQL_JDBC</module>
         <module>jcstress</module>
         <module>jenkov_tutorials</module>
         <module>asm</module>
@@ -84,6 +85,26 @@
                 <configuration>
                     <compilerVersion>1.8</compilerVersion>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/dependency</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

@@ -3,3 +3,9 @@
 target/
 /jcstress/results/
 /jcstress/jcstress-results-*
+/C07_SQL_JDBC/src/test/test_db.db
+/C07_SQL_JDBC/src/test/1.xml
+/C07_SQL_JDBC/src/test/2.xml
+/C07_SQL_JDBC/src/main/resources/vacancies_parser/parser_params.yml
+/C07_SQL_JDBC/src/main/resources/vacancies_parser/log4j.properties
+/C07_SQL_JDBC/log/
