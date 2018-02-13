@@ -16,6 +16,7 @@
         <module>jenkov_tutorials</module>
         <module>asm</module>
         <module>jmh</module>
+        <module>algo</module>
     </modules>
     <packaging>pom</packaging>
 
