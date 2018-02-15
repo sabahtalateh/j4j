@@ -1,4 +1,4 @@
-package com.sabahtalateh.j4j.algo;
+package com.sabahtalateh.j4j.algo.brackets;
 
 import org.junit.Test;
 

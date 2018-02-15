@@ -1,4 +1,4 @@
 /**
  * @author Alex Kravtsov(mailto:sabahtalateh@gmail.com).
  */
-package com.sabahtalateh.j4j.collections_advanced.generics;
+package com.sabahtalateh.j4j.algo.brackets;
