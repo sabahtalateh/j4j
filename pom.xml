@@ -17,6 +17,7 @@
         <module>asm</module>
         <module>jmh</module>
         <module>algo</module>
+        <module>C08_Servlets</module>
     </modules>
     <packaging>pom</packaging>
 
