@@ -1,10 +1,22 @@
 <web-app>
     <servlet>
         <servlet-name>EchoServlet</servlet-name>
-        <servlet-class>com.sabahtalateh.servlets.IntroServlet</servlet-class>
+        <servlet-class>com.sabahtalateh.servlets.intro.IntroServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>EchoServlet</servlet-name>
         <url-pattern>/echo</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UserServlet</servlet-name>
+        <servlet-class>com.sabahtalateh.servlets.users.UsersServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserServlet</servlet-name>
+        <url-pattern>/users</url-pattern>
+    </servlet-mapping>
+
+
+
 </web-app>

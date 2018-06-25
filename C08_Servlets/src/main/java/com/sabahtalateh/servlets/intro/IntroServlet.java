@@ -1,4 +1,4 @@
-package com.sabahtalateh.servlets;
+package com.sabahtalateh.servlets.intro;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
