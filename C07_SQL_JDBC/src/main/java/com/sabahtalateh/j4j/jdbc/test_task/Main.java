@@ -58,8 +58,6 @@ public class Main {
         Thread.sleep(2000);
 
         printStatistics(store);
-
-        System.exit(0);
     }
 
     /**
