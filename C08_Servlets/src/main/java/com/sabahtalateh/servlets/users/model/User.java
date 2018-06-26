@@ -13,12 +13,18 @@ public class User {
     private LocalDateTime dateTime;
 
     /**
-     * @param id       id.
      * @param name     name.
      * @param login    login.
      * @param email    email.
      * @param dateTime date time.
      */
+    public User(String name, String login, String email, LocalDateTime dateTime) {
+        this.name = name;
+        this.login = login;
+        this.email = email;
+        this.dateTime = dateTime;
+    }
+
     public User(int id, String name, String login, String email, LocalDateTime dateTime) {
         this.id = id;
         this.name = name;

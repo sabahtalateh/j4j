@@ -1,6 +1,7 @@
 package com.sabahtalateh.servlets.users.user_store;
 
 import com.sabahtalateh.servlets.users.model.User;
+import com.sabahtalateh.servlets.users.repo.UserWithSameIdExists;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -12,7 +13,7 @@ public class UserStore {
 
     private static UserStore instance = null;
 
-    private static final List<User> USERS = new CopyOnWriteArrayList<>();
+    private final List<User> users = new CopyOnWriteArrayList<>();
 
     /**
      * Prevent from calling from outside of the package.
@@ -23,7 +24,7 @@ public class UserStore {
     /**
      * @return user store.
      */
-    public static UserStore getInstance() {
+    synchronized public static UserStore getInstance() {
         if (instance == null) {
             instance = new UserStore();
         }
@@ -35,13 +36,13 @@ public class UserStore {
      * @return result.
      */
     public boolean add(User user) {
-        return USERS.add(user);
+        return users.add(user);
     }
 
     /**
      * @return users list.
      */
     public List<User> asList() {
-        return USERS;
+        return users;
     }
 }
