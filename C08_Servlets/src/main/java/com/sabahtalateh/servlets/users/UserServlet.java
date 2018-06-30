@@ -118,7 +118,30 @@ public class UserServlet extends BaseServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
 
+        if (!checkUrlPattern(req, resp)) {
+            return;
+        }
 
+        Long id;
+
+        try {
+            String[] urlParts = req.getPathInfo().split("/");
+            id = new Long(urlParts[1]);
+        } catch (RuntimeException e) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            this.appendErrorToResponse(resp, e);
+            return;
+        }
+
+        try {
+            User user = userService.deleteUser(id);
+            PrintWriter pw = new PrintWriter(resp.getOutputStream());
+            String json = new ObjectMapper().writeValueAsString(user);
+            pw.append(json).flush();
+        } catch (UserDoesNotExistsException e) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            this.appendErrorToResponse(resp, e);
+        }
     }
 
     /**

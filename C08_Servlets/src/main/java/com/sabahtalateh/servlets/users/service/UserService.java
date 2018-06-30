@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 
+/**
+ * UserService.
+ */
 public class UserService {
 
     private static UserService instance = null;

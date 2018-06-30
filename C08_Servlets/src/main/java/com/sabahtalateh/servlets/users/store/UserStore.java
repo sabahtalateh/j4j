@@ -2,10 +2,12 @@ package com.sabahtalateh.servlets.users.store;
 
 import com.sabahtalateh.servlets.users.model.User;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.Collection;
 import java.util.Optional;
 
+/**
+ * UserStore.
+ */
 public interface UserStore {
     /**
      * @return users.
@@ -19,25 +21,25 @@ public interface UserStore {
     User add(final User user);
 
     /**
-     * @param user user to add.
-     * @return added user.
+     * @param user user to replace.
+     * @return old user.
      */
     User replace(final User user);
 
     /**
-     * @param user user.
-     * @return user.
+     * @param user user to delete.
+     * @return deleted user.
      */
     User delete(final User user);
 
     /**
-     * @param id id.
+     * @param id user id.
      * @return result.
      */
     boolean contains(Long id);
 
     /**
-     * @param id id.
+     * @param id user id.
      * @return user.
      */
     Optional<User> findById(Long id);

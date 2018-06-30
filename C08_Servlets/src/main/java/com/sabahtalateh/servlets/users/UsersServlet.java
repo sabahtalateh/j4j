@@ -3,7 +3,6 @@ package com.sabahtalateh.servlets.users;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sabahtalateh.servlets.users.model.User;
 import com.sabahtalateh.servlets.users.service.UserService;
-import com.sabahtalateh.servlets.users.service.UserWithSameIdExistsException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
