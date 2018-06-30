@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
  * User.
  */
 public class User {
-    private int id;
+    private Long id;
     private String name;
     private String login;
     private String email;
@@ -25,7 +25,14 @@ public class User {
         this.dateTime = dateTime;
     }
 
-    public User(int id, String name, String login, String email, LocalDateTime dateTime) {
+    /**
+     * @param id       id.
+     * @param name     name.
+     * @param login    login.
+     * @param email    email.
+     * @param dateTime date time.
+     */
+    public User(Long id, String name, String login, String email, LocalDateTime dateTime) {
         this.id = id;
         this.name = name;
         this.login = login;
@@ -36,7 +43,7 @@ public class User {
     /**
      * @return id.
      */
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
